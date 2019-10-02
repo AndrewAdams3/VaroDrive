@@ -1,6 +1,6 @@
 import React, { useState, useReducer } from 'react';
 import { View, Text, Alert, ScrollView, ActivityIndicator, Platform, TouchableOpacity, StyleSheet, Image, TextInput, TouchableHighlight } from 'react-native';
-import {colors} from '../config/styles'
+import { colors } from '../config/styles'
 import ImagePicker from 'react-native-image-picker'
 
 import axios from 'axios'
@@ -169,7 +169,7 @@ export default NewDBScreen = ({navigation}) => {
         );
     }
     const geoSuccess = ({coords}) => {
-        axios.get('https://' + constants.ip + ':3210/location/' + coords.latitude + "/" + coords.longitude)
+        axios.get('http://' + constants.ip + ':3210/location/' + coords.latitude + "/" + coords.longitude)
         .then( ({data}) => {
             dispatch({type: "place", value: {
                 county: data.county,
@@ -239,7 +239,7 @@ export default NewDBScreen = ({navigation}) => {
 
     }
     const handleSubmit = async () => {
-        var url = 'https://' + constants.ip + ':3210/data/drivebys/upload';
+        var url = 'http://' + constants.ip + ':3210/data/drivebys/upload';
         const post = state.post
         const config = {
             method: 'POST',
@@ -252,7 +252,7 @@ export default NewDBScreen = ({navigation}) => {
         if(state.state && state.city && state.street){
             await axios.post(url, post, config ).then( async ({data}) => {
             if (data.response == 0){
-                url = 'https://' + constants.ip + ':3210/data/drivebys/newDB';
+                url = 'http://' + constants.ip + ':3210/data/drivebys/newDB';
                 await axios.post(url,{
                     path: data.path,
                     id: userId,

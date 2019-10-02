@@ -4,7 +4,7 @@ import {
   StatusBar,
   View,
   PermissionsAndroid,
-  Platform
+  Platform, Text
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
@@ -16,7 +16,7 @@ const ACCESS_TOKEN = 'access_token';
 
 export default LandingScreen = ({navigation}) => {
     const [, actions] = useGlobal();
-
+    const [err, setErr] = useState()
     useEffect(()=>{
         _bootstrapAsync()
         Platform.OS === "android" ? requestLocationPermission() : ()=>{}
@@ -38,8 +38,10 @@ export default LandingScreen = ({navigation}) => {
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         } else {
+          setErr("permission not granted")
         }
       } catch (err) {
+        setErr("error setting permission")
         console.warn(err);
       }
     }
@@ -51,7 +53,9 @@ export default LandingScreen = ({navigation}) => {
         complete: false,
         verified: false
       }
+      console.log("posting to get")
       await axios.post(url, { seshId: token }).then(({data}) => {
+        console.log("got ", data)
         if(data.ok === 1){
           if(data.userId){
             res.found = true;
@@ -74,6 +78,7 @@ export default LandingScreen = ({navigation}) => {
           };
         }
       }).catch((err)=>{
+        setErr("error getting user")
         console.log("err getting user in landing", err)
       })
       return res;
@@ -100,6 +105,7 @@ export default LandingScreen = ({navigation}) => {
 
     return (
       <View style={{flex: 1,justifyContent: 'space-around', alignItems: 'center', backgroundColor: colors.PRIMARY_BACKGROUND}}>
+        {err && <Text>{err}</Text> }
         <ActivityIndicator/>
         <StatusBar barStyle='dark-content' />
       </View>

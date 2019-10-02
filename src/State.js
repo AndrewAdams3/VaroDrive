@@ -16,17 +16,18 @@ const initialState = {
  
 const actions = {
   login: (store) => {
-      store.setState({loggedIn: true});
+      store.setState({...store, loggedIn: true});
   },
   logout: (store) => {
-    store.setState({loggedIn: false});
+    store.setState(initialState);
   },
   setUserId: (store, id) => {
-      store.setState({userId: id})
+      store.setState({...store, userId: id})
   },
   setUserInfo: (store, values) => {
     const { id, fName, lName, loggedIn, profilePic, email, city, state } = values;
     store.setState({      
+      ...store, 
       userId: id ? id : store.state.userId,
       fName: fName ? fName : store.state.fName,
       lName: lName ? lName : store.state.fName,
@@ -38,10 +39,10 @@ const actions = {
     })
   },
   setLocation: (store, loc) => {
-    store.setState({location: loc});
+    store.setState({...store, location: loc});
   },
   setOnClock: (store, val) => {
-    store.setState({onClock: val})
+    store.setState({...store, onClock: val})
   }
 };
  

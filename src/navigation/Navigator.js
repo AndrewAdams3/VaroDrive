@@ -12,6 +12,11 @@ import UserInfoScreen from '../screens/UserInfo'
 import HomeScreen from '../screens/HomeScreen'
 import TimeInScreen from '../screens/TimeInScreen'
 import NewDBScreen from '../screens/NewDBScreen'
+import TimeSheetScreen from '../screens/TimesheetScreen'
+import ProfileScreen from '../screens/ProfileScreen'
+import ViewAssignments from '../screens/ViewAssignments'
+import ViewDBs from '../screens/ViewDBs'
+import EditProfile from '../screens/EditProfile'
 
 const AuthStack = createStackNavigator({
     Login: LoginScreen,
@@ -40,32 +45,13 @@ const SetupStack = createStackNavigator({
 
 const AppNav = createStackNavigator({
     TimeIn: TimeInScreen,
-    // TimeSheet: TimeSheet,
+    TimeSheet: TimeSheetScreen,
     Home: HomeScreen,
-    NewDB: NewDBScreen
-    // Profile: ProfileScreen,
-    // Edit: EditProfile,
-    // AllAssignments: AllAssignmentsScreen,
-    // ShowDBs: ShowDBsScreen,
-    // NewDB: {
-    //   screen: createMaterialTopTabNavigator({
-    //     Natural: NewDBScreen,
-    //     Assignment: AssignmentDBScreen
-    //   }, {
-    //       initialRouteName: "Natural",
-    //       tabBarOptions: {
-    //         style: {
-    //           backgroundColor: colors.SECONDARY_BACKGROUND,
-    //         },
-    //         indicatorStyle: {
-    //           backgroundColor: "white"
-    //         }
-    //       }
-    //     }),
-    //   navigationOptions: {
-    //     title: 'New Drive By',
-    //   }
-    // }
+    NewDB: NewDBScreen,
+    Profile: ProfileScreen,
+    Edit: EditProfile,
+    ViewAssignments: ViewAssignments,
+    ViewDBs: ViewDBs,
   },{ 
     initialRouteName: 'Home',
     defaultNavigationOptions: {

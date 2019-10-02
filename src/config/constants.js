@@ -1,3 +1,3 @@
 export default constants = {
-  ip: '10.62.83.172'
+  ip: '10.1.10.178'
 };
