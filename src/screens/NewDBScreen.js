@@ -1,5 +1,5 @@
 import React, { useState, useReducer } from 'react';
-import { View, Text, Alert, ScrollView, ActivityIndicator, Platform, TouchableOpacity, StyleSheet, Image, TextInput, TouchableHighlight } from 'react-native';
+import { View, Text, Alert, ScrollView, Modal, ActivityIndicator, Platform, TouchableOpacity, StyleSheet, Image, TextInput } from 'react-native';
 import { colors } from '../config/styles'
 import ImagePicker from 'react-native-image-picker'
 
@@ -7,9 +7,7 @@ import axios from 'axios'
 import constants from '../config/constants'
 import AlertPopup from '../components/AlertPopup.js'
 import useGlobal from '../State'
- 
-import Geolocation from 'react-native-geolocation-service';
-
+import MapModal from '../components/MapModal'
 
 const initialState = {     
     city: "",
@@ -48,6 +46,7 @@ function reducer(state, action) {
             address: address
         };
     case 'avatar': return {...state, avatar: action.value };
+    case 'hasPic': return {...state, hasPic: action.value };
     case 'post': return {...state, post: action.value };
     case 'vacant': return {...state, vacant: action.value };
     case 'burned': return {...state, burned: action.value };
@@ -79,6 +78,8 @@ export default NewDBScreen = ({navigation}) => {
     const [{userId}, globalActions] = useGlobal();
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
+    const [hasSet, setHasSet] = useState(false)
+    const [modalShow, setModalShow] = useState(false)
     const circle = require('../config/images/circle.png');
     const bg = require('../config/images/psbackground.png');
     const addImage = require('../config/images/plus.png');
@@ -87,7 +88,7 @@ export default NewDBScreen = ({navigation}) => {
         var placeholder
         switch(num){
             case 0:
-                placeholder = state.hasPic ? state.street : "Address will load after image is taken..."
+                placeholder = state.hasPic ? state.street : "Choose address after image is taken"
                 break;
             case 1:
                 placeholder = new Date().toDateString() + " " + new Date().toTimeString()
@@ -157,35 +158,6 @@ export default NewDBScreen = ({navigation}) => {
         )
     }
 
-    const getCurrentLocation = () => {
-        Geolocation.getCurrentPosition(
-            (position) => {
-                geoSuccess(position);
-            },
-            (error) => {
-                // See error code charts below.
-            },
-            { enableHighAccuracy: false, timeout: 15000, maximumAge: 10000 }
-        );
-    }
-    const geoSuccess = ({coords}) => {
-        axios.get('http://' + constants.ip + ':3210/location/' + coords.latitude + "/" + coords.longitude)
-        .then( ({data}) => {
-            dispatch({type: "place", value: {
-                county: data.county,
-                State: data.state,
-                city: data.city,
-                postal: data.postal,
-                street: data.street,
-                hasPic: true,
-                address: data.address
-            }})
-            globalActions.setLocation(data.address)
-        })
-        setLat(coords.latitude)
-        setLon(coords.longitude)
-    }
-
     const openCamera = () => {
         const options = {
             storageOptions: {
@@ -214,9 +186,11 @@ export default NewDBScreen = ({navigation}) => {
                 });
 
                 if(source != ""){
-                    getCurrentLocation();
                     dispatch({type: "avatar", value: source})
+                    dispatch({type: "hasPic", value: true})
+
                     dispatch({type: "post", value: data})
+                    setModalShow(true);
                 }  
             }
         });
@@ -248,7 +222,9 @@ export default NewDBScreen = ({navigation}) => {
             },
             body: state.post,
         };
+        console.log("config", config)
         dispatch({type: "sending", value: true})
+        console.log("vals", state)
         if(state.State && state.city && state.street){
             await axios.post(url, post, config ).then( async ({data}) => {
             if (data.response == 0){
@@ -301,6 +277,13 @@ export default NewDBScreen = ({navigation}) => {
                     <Image source={state.hasPic ? state.avatar : addImage} resizeMode="center" style={{alignSelf: 'center', height: 70, width: 70}} />
                     <Text style={{ marginTop: 20, alignSelf: 'center', fontSize: 20, color: 'white', height: 25 }}>{state.avatar ? "Change Image" : "Add Image"}</Text>
                 </TouchableOpacity>
+                { hasSet &&
+                    <View style={{width: "100%", height: 50, justifyContent: "center", alignItems: "center"}}>
+                        <TouchableOpacity onPress={()=>setModalShow(true)} style={{width: "60%", flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: colors.PRIMARY_BACKGROUND, borderColor: colors.SECONDARY_BACKGROUND, borderWidth: 2, borderRadius: 5}}>
+                            <Text style={{width: "100%", color: "white", textAlign: "center"}}>Open Map</Text>
+                        </TouchableOpacity>
+                    </View>
+                }
                 {formItem(0)}
                 {formItem(1)}
                 {pType(2)}
@@ -317,9 +300,26 @@ export default NewDBScreen = ({navigation}) => {
         )
     }
 
+    const setLocation = (data) => {
+        console.log("setting loc", data);
+        dispatch({type: "place", value: {
+            county: data.county,
+            State: data.state,
+            city: data.city,
+            postal: data.postal,
+            street: data.street,
+            address: data.address
+        }})
+        setLat(data.lat)
+        setLon(data.lon)
+    }
+
     return (
       <View style={styles.container}>
         <Image source={bg} style={styles.background} />
+        <Modal visible={modalShow} onDismiss={()=>setModalShow(false)}>
+            {<MapModal onClose={()=>{setModalShow(false); setHasSet(true)}} setLocation={setLocation}/>}
+        </Modal>
         {MainView()}
       </View>
     );
@@ -381,5 +381,6 @@ const styles = StyleSheet.create({
   boolText: { 
     textAlign: 'center', 
     fontSize: 15, 
-    color: 'white' }
+    color: 'white' 
+  }
 });
