@@ -186,11 +186,10 @@ export default NewDBScreen = ({navigation}) => {
                 });
 
                 if(source != ""){
+                    setModalShow(true);
                     dispatch({type: "avatar", value: source})
                     dispatch({type: "hasPic", value: true})
-
                     dispatch({type: "post", value: data})
-                    setModalShow(true);
                 }  
             }
         });

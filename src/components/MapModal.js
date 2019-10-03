@@ -86,6 +86,8 @@ export default MapModal = ({setLocation, onClose}) => {
                    heading: 0,
                    zoom: 20 
                 }}
+                pitchEnabled={false}
+                toolbarEnabled={false}
             >
                 <Marker coordinate={{longitude: lon, latitude: lat}} onPress={(e)=>console.log("mark", e.nativeEvent)}>
                     <View style={{width: 100, heigth: 100, justifyContent: "center", alignItems: "center"}}>
