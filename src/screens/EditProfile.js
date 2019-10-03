@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import {
   View, Text,
   Platform,
@@ -16,29 +16,33 @@ import useGlobalState from '../State'
 
 const initialState = {     
     _city: "",
-    state: "",
-    post: {},
-    fName: "",
-    lName: "",
-    email: "",
-    profilePic: ""
+    _state: "",
+    _post: {},
+    _fName: "",
+    _lName: "",
+    _email: "",
+    _profilePic: ""
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'fName': return {...state, _fName: action.value};
-    case 'lName': return {...state, _lName: action.value};
-    case 'city': return {...state, _city: action.value};
-    case 'state': return {...state, _state: action.value};
-    case 'picture': return {...state, _profilePic: action.value };
-    case 'post': return {...state, _post: action.value };
+    case '_fName': return {...state, _fName: action.value};
+    case '_lName': return {...state, _lName: action.value};
+    case '_city': return {...state, _city: action.value};
+    case '_email': return {...state, _email: action.value};
+    case '_state': return {...state, _state: action.value};
+    case '_picture': return {...state, _profilePic: action.value };
+    case '_post': return {...state, _post: action.value };
     default: throw new Error();
   }
 }
 
 export default EditProfile = ({navigation}) => {
 
-    const [{fName, lName, city, state, profilePic, email, userId}, actions] = useGlobalState()
+    const [{fName, lName, city, State, profilePic, email, userId}, actions] = useGlobalState()
+    useEffect(()=>{
+        dispatch({type: "_picture", value: profilePic})
+    },[profilePic])
 
     const [_state, dispatch] = useReducer(reducer, initialState);
     const background = require('../config/images/psbackground.png')
@@ -50,7 +54,7 @@ export default EditProfile = ({navigation}) => {
         var lName = _state["_lName"] === undefined ? lName : _state["_lName"]
         var email = _state["_email"] === undefined ? email : _state["_email"]
         var city = _state["_city"] === undefined ? city : _state["_city"]
-        var state = _state["_state"] === undefined ? state : _state["_state"]
+        var state = _state["_state"] === undefined ? State : _state["_state"]
         axios.put(url, {
             id: userId,
             fName: fName,
@@ -90,9 +94,9 @@ export default EditProfile = ({navigation}) => {
                 type: response.type,
                 name: response.fileName
             });
-
+            data.append('type', "profilPic");
             if (source != "") {
-                dispatch({type: "picture", value: data})
+                dispatch({type: "_post", value: data})
                 submitPic()
             }
         }
@@ -102,27 +106,26 @@ export default EditProfile = ({navigation}) => {
     const submitPic = async () => {
         var url = 'http://' + constants.ip + ':3210/data/users/profilePic';
 
-        const type = "profilePic"
-        var post = Post
-        post.append('type', type);
-
         const config = {
             method: 'POST',
             headers: {
                 'content-type': 'multipart/form-data'
             },
-            body: post,
+            body: _state._post,
         };
 
-        await axios.post(url, post, config).then(async ({data}) => {
+        await axios.post(url, _state._post, config).then(async ({data}) => {
         if (data.response == 0) {
             url = 'http://' + constants.ip + ':3210/data/users/profilePic';
             await axios.put(url, {
                 value: data.path,
                 id: userId
             }).then((res2) => {
+                console.log("res2, ", res2)
             if (res2.data.success) {
                 var p = data.path.replace(/\\/g, "/");
+                console.log("path: " , p)
+                dispatch({type: "_picture", value: p})
                 actions.setUserInfo({profilePic: p})
             }
             }).catch((err) => {
@@ -130,6 +133,7 @@ export default EditProfile = ({navigation}) => {
             })
         }
         }, (err) => {
+            console.log("err posting", err)
         })
     }
 
@@ -138,10 +142,11 @@ export default EditProfile = ({navigation}) => {
         <ImageButton onPress={openCamera} style={{ flex: 1, margin: 15, justifyContent: 'space-around', alignItems: 'center', alignSelf: 'center' }}>
             <FastImage
             onError={() => {
-                dispatch({type: "picture", value: "file/uploads/profilePics/default.jpg"})
+                dispatch({type: "_picture", value: "file/uploads/profilePics/default.png"})
             }}
             style={styles.profilePic}
-            source={{uri:('http://' + constants.ip + ':3210/' + _state["_profilePic"])}}
+            source={{uri:('http://' + constants.ip + ':3210/' + _state._profilePic)}}
+            resizeMode="cover"
             />
         </ImageButton>
         )
@@ -149,20 +154,22 @@ export default EditProfile = ({navigation}) => {
 
     const Field = ({title, type}) => {
         return (
-        <View style={[styles.inputContainer, {width: '80%'}]}>
-            <TextInput
-                style={styles.tInput}
-                placeholder={title + "..."}
-                returnKeyType={"done"}
-                placeholderTextColor={"white"}
-                onChangeText={(text) => dispatch({type: type, value: text})}
-                maxLength={title === "State" ? 2 : null}
-            />
-        </View>
+            <View style={[styles.inputContainer, {width: '80%'}]}>
+                <TextInput
+                    style={styles.tInput}
+                    placeholder={title + "..."}
+                    returnKeyType={"done"}
+                    placeholderTextColor={"white"}
+                    onChangeText={(text) => dispatch({type: type, value: text})}
+                    value={_state[type]}
+                    maxLength={type === "_state" ? 2 : null}
+                />
+            </View>
         )
     }
 
     const ShowChanges = (p) => {
+        console.log("p", p)
         return(
         <View style={styles.field}>
             <View style={styles.resultContainer}>
@@ -182,17 +189,17 @@ export default EditProfile = ({navigation}) => {
           <Image source={background} style={styles.background} />
            <View style={styles.main}>
             <Pic />
-            <Field title="First Name" type="fName"/>
-            <Field title="Last Name" type="lName"/>
-            <Field title="Email" type="email"/>
-            <Field title="City" type="city"/>
-            <Field title="State" type="state"/>
+            {Field({title: "First Name", type: "_fName"})}
+            {Field({title: "Last Name", type: "_lName"})}
+            {Field({title: "Email", type: "_email"})}
+            {Field({title: "City", type: "_city"})}
+            {Field({title: "State", type: "_state"})}
             <Text style={styles.confirm}>Confirm Changes</Text>
             <ShowChanges title="First Name" old={fName} type="_fName"/>
             <ShowChanges title="Last Name" old={lName}  type="_lName"/>
             <ShowChanges title="Email" old={email}  type="_email"/>
             <ShowChanges title="City" old={city}  type="_city"/>
-            <ShowChanges title="State" old={state}  type="_state"/>
+            <ShowChanges title="State" old={State}  type="_state"/>
           </View>
           <View style={[styles.buttonsContainer, { margin: 0 }]}>
             <TouchableOpacity style={styles.button} onPress={submitChanges}>

@@ -18,17 +18,19 @@ const ACCESS_TOKEN = 'access_token';
 
 export default ProfileScreen = ({navigation}) => {
     const [{profilePic, fName, userId}, actions] = useGlobalState()
-    const [path, setPath] = useState("")
     const [profilepic, setprofilepic] = useState("")
+
     useEffect(()=>{
         var path = ''
         if(profilePic){
             path = profilePic.split('\\')
             path = path.join('/')
+            setprofilepic('https://' + constants.ip + ':3210/' + path)
           }
-          else
-            path = 'file/uploads/profilePics/default.jpg'
-        setprofilepic('https://' + constants.ip + ':3210/' + path)
+        else{
+          path = 'file/uploads/profilePics/default.png'
+          setprofilepic('https://' + constants.ip + ':3210/' + path)
+        }
     },[])
     
     const background = require('../config/images/psbackground.png')
@@ -59,10 +61,11 @@ export default ProfileScreen = ({navigation}) => {
           <View style={{ flex: 2, alignContent: 'flex-start', justifyContent: 'flex-start' }}>
             <FastImage
               onError={() => {
-                  setprofilepic('http://' + constants.ip + ':3210/' + "file/uploads/profilePics/default.jpg")
+                  setprofilepic('http://' + constants.ip + ':3210/' + "file/uploads/profilePics/default.png")
               }}
               style={styles.profilePic}
-              source={{ uri: profilepic }}
+              source={{ uri: 'http://' + constants.ip + ':3210/' + profilePic }}
+              resizeMode="cover"
             />
           </View>
           <TouchableOpacity style={{flex: .7, marginBottom: 10, width: '90%', alignItems: 'center', justifyContent: 'space-around', backgroundColor: colors.PRIMARY_BACKGROUND, borderRadius: 20}} onPress={() => {navigation.navigate("ViewAssignments")}}>

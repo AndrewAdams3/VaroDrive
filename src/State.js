@@ -5,9 +5,9 @@ const initialState = {
   fName: "",
   lName: "",
   city: "",
-  state: "",
+  State: "",
   email: "",
-  profilePic: "",
+  profilePic: "file/uploads/profilePics/default.png",
   loggedIn: false,
   userId: "",
   location: "",
@@ -25,7 +25,7 @@ const actions = {
       store.setState({...store, userId: id})
   },
   setUserInfo: (store, values) => {
-    const { id, fName, lName, loggedIn, profilePic, email, city, state } = values;
+    const { id, fName, lName, loggedIn, profilePic, email, city, State } = values;
     store.setState({      
       ...store, 
       userId: id ? id : store.state.userId,
@@ -35,7 +35,7 @@ const actions = {
       profilePic: profilePic ? profilePic : store.state.profilePic,
       email: email ? email : store.state.email,
       city: city ? city : store.state.city,
-      state: state ? state : store.state.state
+      State: State ? State : store.state.State
     })
   },
   setLocation: (store, loc) => {

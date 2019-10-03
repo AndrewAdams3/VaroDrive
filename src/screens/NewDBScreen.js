@@ -13,7 +13,7 @@ import Geolocation from 'react-native-geolocation-service';
 
 const initialState = {     
     city: "",
-    state: "",
+    State: "",
     county: "",
     postal: "",
     type: "",
@@ -31,7 +31,7 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case 'city': return {...state, city: action.value};
-    case 'state': return {...state, state: action.value};
+    case 'state': return {...state, State: action.value};
     case 'county': return {...state, county: action.value};
     case 'postal': return {...state, postal: action.value};
     case 'sending': return {...state, sending: action.value};
@@ -40,7 +40,7 @@ function reducer(state, action) {
         return {
             ...state, 
             city: city,
-            state: State,
+            State: State,
             county: county,
             postal: postal,
             street: street,
@@ -249,7 +249,7 @@ export default NewDBScreen = ({navigation}) => {
             body: state.post,
         };
         dispatch({type: "sending", value: true})
-        if(state.state && state.city && state.street){
+        if(state.State && state.city && state.street){
             await axios.post(url, post, config ).then( async ({data}) => {
             if (data.response == 0){
                 url = 'http://' + constants.ip + ':3210/data/drivebys/newDB';
@@ -267,7 +267,7 @@ export default NewDBScreen = ({navigation}) => {
                     lat: lat,
                     lon: lon,
                     city: state.city,
-                    state: state.state,
+                    state: state.State,
                     county: state.county,
                     post: state.postal,
                 }).then( ({data}) => {

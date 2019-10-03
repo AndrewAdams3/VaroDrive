@@ -67,7 +67,7 @@ export default LandingScreen = ({navigation}) => {
               profilePic: data.pic.replace(/\\/g, "/") || "",
               email: data.email || "",
               city: data.city || "",
-              state: data.state || ""
+              State: data.state || ""
             })
           }
           if(data.infoComplete){
