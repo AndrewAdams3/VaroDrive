@@ -67,7 +67,7 @@ export default ViewDBs = ({navigation}) => {
     },[])
 
     const getDriveBys = () => {
-        var url = 'http://' + constants.ip + ':3210/data/drivebys/byUserId';
+        var url = 'https://' + constants.ip + ':3210/data/drivebys/byUserId';
         if(userId){ 
             Axios.post(url, {
                 id: userId,
@@ -98,7 +98,6 @@ export default ViewDBs = ({navigation}) => {
         }
     }
     const listItem = ({ item }) => {
-        console.log("path: ", item.picturePath)
         if(item){
         const d = new Date(item.date)
         return (

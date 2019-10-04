@@ -24,7 +24,6 @@ export default LoginScreen = ({navigation}) => {
 
     const storeToken = async (accessToken) => {
         try {
-          console.log("storing" , accessToken);
           await AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
           //getToken();
         } catch (error) {
@@ -33,7 +32,7 @@ export default LoginScreen = ({navigation}) => {
     }
     
     const login = async () => {
-        var url = 'http://' + constants.ip + ':3210/data/users/login';
+        var url = 'https://' + constants.ip + ':3210/data/users/login';
         var userId;
         if (email != '' && password != '') {
           Axios.post(url, {
@@ -43,14 +42,11 @@ export default LoginScreen = ({navigation}) => {
               if (data.loggedIn) {
                 setErr("")
                 if ( data.seshId && data.verified ) {
-                  console.log("sesh", data.seshId, data.verified, data );
                   storeToken(data.seshId);
                   actions.login();
                   actions.setUserId(userId);
-                  console.log("to app")
                   navigation.navigate('App');
                 } else {
-                  console.log("to setup")
                   navigation.navigate('Setup');
                 }
               } else {

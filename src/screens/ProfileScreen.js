@@ -38,10 +38,9 @@ export default ProfileScreen = ({navigation}) => {
     const removeToken = async () => {
         try {
             AsyncStorage.setItem(ACCESS_TOKEN, "");
-            var url = 'http://' + constants.ip + ':3210/data/users/logout';
+            var url = 'https://' + constants.ip + ':3210/data/users/logout';
             Axios.put(url, {id: userId, value: ""} )
             actions.logout()
-            console.log("to auth")
             navigation.navigate("Auth")
         } catch (error) {
             console.log(error)
@@ -61,10 +60,10 @@ export default ProfileScreen = ({navigation}) => {
           <View style={{ flex: 2, alignContent: 'flex-start', justifyContent: 'flex-start' }}>
             <FastImage
               onError={() => {
-                  setprofilepic('http://' + constants.ip + ':3210/' + "file/uploads/profilePics/default.png")
+                  setprofilepic('https://' + constants.ip + ':3210/' + "file/uploads/profilePics/default.png")
               }}
               style={styles.profilePic}
-              source={{ uri: 'http://' + constants.ip + ':3210/' + profilePic }}
+              source={{ uri: 'https://' + constants.ip + ':3210/' + profilePic }}
               resizeMode="cover"
             />
           </View>

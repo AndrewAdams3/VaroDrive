@@ -1,29 +1,36 @@
 import React, { useEffect, useState } from 'react'
-import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native'
+import { View, TouchableOpacity, Text, StyleSheet, Image, Animated } from 'react-native'
 import Geolocation from 'react-native-geolocation-service'
 import MapView, {Marker} from 'react-native-maps'
 import Axios from 'axios'
 import colors from '../config/styles/colors'
 import useGlobalState from '../State'
+import useRotate from '../hooks/useRotate'
 
 export default MapModal = ({setLocation, onClose}) => {
 
     const [pos, setPos] = useState()
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
-    const [addr, setAddr] = useState("Current Location")
+    const [markerText, setMarkerText] = useState(true)
+    const [addr, setAddr] = useState("Loading address...")
     const [state, globalActions] = useGlobalState()
+    const rotate = useRotate(100);
     const marker = require('../config/images/marker.png')
+    const logo = require("../config/images/VaroLogo.png");
 
     useEffect(()=>{
-        getCurrentLocation()
+        setTimeout(()=>{
+            getCurrentLocation()
+        },2000)
         return () =>{
             Geolocation.stopObserving();
         }
     },[])
     
     useEffect(()=>{
-        setLocationByCoords(lat, lon)
+        if(lat && lon)
+            setLocationByCoords(lat, lon)
     },[lat, lon])
 
     const getCurrentLocation = () => {
@@ -41,7 +48,7 @@ export default MapModal = ({setLocation, onClose}) => {
     }
 
     const setLocationByCoords = (lat, lon) => {
-        Axios.get('http://' + constants.ip + ':3210/location/' + lat + "/" + lon)
+        Axios.get('https://' + constants.ip + ':3210/location/' + lat + "/" + lon)
         .then( ({data}) => {
             setLocation({
                     county: data.state,
@@ -63,15 +70,7 @@ export default MapModal = ({setLocation, onClose}) => {
         setLon(e.nativeEvent.coordinate.longitude)
     }
 
-    if(!(pos && lat && lon)){
-        return (
-            <View style={{flex: 1, width: "100%", justifyContent: "center", alignItems:"center"}}>
-                <Text>Getting location...</Text>
-            </View>
-        )
-    }
-
-    return (
+    return pos && lat && lon ? (
         <View style={styles.container}>
             <MapView
                 style={styles.map}
@@ -89,9 +88,9 @@ export default MapModal = ({setLocation, onClose}) => {
                 pitchEnabled={false}
                 toolbarEnabled={false}
             >
-                <Marker coordinate={{longitude: lon, latitude: lat}} onPress={(e)=>console.log("mark", e.nativeEvent)}>
+                <Marker coordinate={{longitude: lon, latitude: lat}} onPress={(e)=>setMarkerText(!markerText)}>
                     <View style={{width: 100, heigth: 100, justifyContent: "center", alignItems: "center"}}>
-                        <Text style={{textAlign: "center", width: "100%"}}>{addr}</Text>
+                        {markerText && <Text style={{textAlign: "center", width: "100%"}}>{addr}</Text> }
                         <Image source={marker} style={{width: 50, height: 50}} resizeMode="center"/>
                     </View>
                 </Marker>
@@ -103,9 +102,16 @@ export default MapModal = ({setLocation, onClose}) => {
             </View>
             <View style={{width: "100%", height: 80, position: "absolute", bottom: 30, justifyContent: "center", alignItems: "center"}}>
                 <TouchableOpacity onPress={onClose} style={styles.close}>
-                    <Text style={{width:"100%", textAlign:"center", color: "white", fontSize: 16}}>Close</Text>
+                    <Text style={{width:"100%", textAlign:"center", color: "white", fontSize: 16}}>Confirm</Text>
                 </TouchableOpacity>
             </View>
+        </View>
+    )
+                :
+    (
+        <View style={{flex: 1, width: "100%", justifyContent: "center", alignItems:"center"}}>
+            <Text style={{position: "absolute", width: "100%", top: 50, textAlign: "center", color: "black"}}>Loading location...</Text>
+            <Animated.Image source={logo} style={{width: 200, height: 200, transform:[{rotateZ: rotate}]}} resizeMode="center" />
         </View>
     )
 }

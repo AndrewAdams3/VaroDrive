@@ -41,7 +41,7 @@ export default UserInfoScreen = ({navigation}) => {
     }
 
     const postChanges = () => {
-      var url = 'http://' + constants.ip + ':3210/data/users/update';
+      var url = 'https://' + constants.ip + ':3210/data/users/update';
       axios.put(url, {
         id: userId,
         fName: temp1,

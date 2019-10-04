@@ -16,7 +16,7 @@ export default TimeSheetScreen = ({navigation}) => {
     const background = require('../config/images/psbackground.png');
 
     useEffect(()=>{
-        var url = 'http://' + constants.ip + ':3210/data/times/byId/' + userId + "/" + "30";
+        var url = 'https://' + constants.ip + ':3210/data/times/byId/' + userId + "/" + "30";
         Axios.get(url).then(({data}) => {
             setTimes(data)
         })
@@ -121,7 +121,7 @@ export default TimeSheetScreen = ({navigation}) => {
   }
   const sortDates = () => {
     if(selectedEndDate && selectedStartDate){
-      var url = 'http://' + constants.ip + ':3210/data/times/byId/' + userId + "/" + selectedStartDate + "/" + selectedEndDate;
+      var url = 'https://' + constants.ip + ':3210/data/times/byId/' + userId + "/" + selectedStartDate + "/" + selectedEndDate;
       Axios.get(url).then(({data}) => {
           setTimes(data)
           setFresh(!refresh)

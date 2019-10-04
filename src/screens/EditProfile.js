@@ -49,7 +49,7 @@ export default EditProfile = ({navigation}) => {
     const right = require('../config/images/trighticon.png')
 
     const submitChanges = () => {
-        var url = 'http://' + constants.ip + ':3210/data/users/update';
+        var url = 'https://' + constants.ip + ':3210/data/users/update';
         var fName = _state["_fName"] === undefined ? fName : _state["_fName"]
         var lName = _state["_lName"] === undefined ? lName : _state["_lName"]
         var email = _state["_email"] === undefined ? email : _state["_email"]
@@ -71,6 +71,7 @@ export default EditProfile = ({navigation}) => {
                 state: state 
             })
         })
+        submitPic()
         navigation.navigate("Profile")
     }
 
@@ -97,14 +98,13 @@ export default EditProfile = ({navigation}) => {
             data.append('type', "profilPic");
             if (source != "") {
                 dispatch({type: "_post", value: data})
-                submitPic()
             }
         }
         });
     }
 
     const submitPic = async () => {
-        var url = 'http://' + constants.ip + ':3210/data/users/profilePic';
+        var url = 'https://' + constants.ip + ':3210/data/users/profilePic';
 
         const config = {
             method: 'POST',
@@ -113,18 +113,16 @@ export default EditProfile = ({navigation}) => {
             },
             body: _state._post,
         };
-
+        console.log("config", config)
         await axios.post(url, _state._post, config).then(async ({data}) => {
         if (data.response == 0) {
-            url = 'http://' + constants.ip + ':3210/data/users/profilePic';
+            url = 'https://' + constants.ip + ':3210/data/users/profilePic';
             await axios.put(url, {
                 value: data.path,
                 id: userId
             }).then((res2) => {
-                console.log("res2, ", res2)
             if (res2.data.success) {
                 var p = data.path.replace(/\\/g, "/");
-                console.log("path: " , p)
                 dispatch({type: "_picture", value: p})
                 actions.setUserInfo({profilePic: p})
             }
@@ -145,7 +143,7 @@ export default EditProfile = ({navigation}) => {
                 dispatch({type: "_picture", value: "file/uploads/profilePics/default.png"})
             }}
             style={styles.profilePic}
-            source={{uri:('http://' + constants.ip + ':3210/' + _state._profilePic)}}
+            source={{uri:('https://' + constants.ip + ':3210/' + _state._profilePic)}}
             resizeMode="cover"
             />
         </ImageButton>
@@ -169,7 +167,6 @@ export default EditProfile = ({navigation}) => {
     }
 
     const ShowChanges = (p) => {
-        console.log("p", p)
         return(
         <View style={styles.field}>
             <View style={styles.resultContainer}>

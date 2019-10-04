@@ -34,7 +34,7 @@ function reducer(state, action) {
     case 'postal': return {...state, postal: action.value};
     case 'sending': return {...state, sending: action.value};
     case 'place':
-        const {county, State, city, postal, street, hasPic, address} = action.value;
+        const {county, State, city, postal, street, address} = action.value;
         return {
             ...state, 
             city: city,
@@ -42,7 +42,6 @@ function reducer(state, action) {
             county: county,
             postal: postal,
             street: street,
-            hasPic: hasPic,
             address: address
         };
     case 'avatar': return {...state, avatar: action.value };
@@ -53,7 +52,7 @@ function reducer(state, action) {
     case 'boarded': return {...state, boarded: action.value };
     case 'type': return {...state, type: action.value };
     case 'street': return { ...state, street: action.value };
-    default: throw new Error();
+    default: throw new Error("Error creating dispatch");
   }
 }
 
@@ -186,10 +185,10 @@ export default NewDBScreen = ({navigation}) => {
                 });
 
                 if(source != ""){
-                    setModalShow(true);
                     dispatch({type: "avatar", value: source})
                     dispatch({type: "hasPic", value: true})
                     dispatch({type: "post", value: data})
+                    setModalShow(true);
                 }  
             }
         });
@@ -212,7 +211,7 @@ export default NewDBScreen = ({navigation}) => {
 
     }
     const handleSubmit = async () => {
-        var url = 'http://' + constants.ip + ':3210/data/drivebys/upload';
+        var url = 'https://' + constants.ip + ':3210/data/drivebys/upload';
         const post = state.post
         const config = {
             method: 'POST',
@@ -221,13 +220,11 @@ export default NewDBScreen = ({navigation}) => {
             },
             body: state.post,
         };
-        console.log("config", config)
         dispatch({type: "sending", value: true})
-        console.log("vals", state)
         if(state.State && state.city && state.street){
             await axios.post(url, post, config ).then( async ({data}) => {
             if (data.response == 0){
-                url = 'http://' + constants.ip + ':3210/data/drivebys/newDB';
+                url = 'https://' + constants.ip + ':3210/data/drivebys/newDB';
                 await axios.post(url,{
                     path: data.path,
                     id: userId,
@@ -246,7 +243,6 @@ export default NewDBScreen = ({navigation}) => {
                     county: state.county,
                     post: state.postal,
                 }).then( ({data}) => {
-                    console.log("res", data)
                 if(data.response == 0){
                     if(data.already){
                         showAlreadyAlert();
@@ -300,7 +296,6 @@ export default NewDBScreen = ({navigation}) => {
     }
 
     const setLocation = (data) => {
-        console.log("setting loc", data);
         dispatch({type: "place", value: {
             county: data.county,
             State: data.state,

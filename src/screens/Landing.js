@@ -47,15 +47,13 @@ export default LandingScreen = ({navigation}) => {
     }
 
     const getUser = async (token, returner) => {
-      var url = 'http://' + constants.ip + ':3210/data/users/id';
+      var url = 'https://' + constants.ip + ':3210/data/users/id';
       var res = {
         found: false,
         complete: false,
         verified: false
       }
-      console.log("posting to get")
       await axios.post(url, { seshId: token }).then(({data}) => {
-        console.log("got ", data)
         if(data.ok === 1){
           if(data.userId){
             res.found = true;
@@ -79,7 +77,6 @@ export default LandingScreen = ({navigation}) => {
         }
       }).catch((err)=>{
         setErr("error getting user")
-        console.log("err getting user in landing", err)
       })
       return res;
     }
