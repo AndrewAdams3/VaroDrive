@@ -218,10 +218,8 @@ TimeSheetScreen.navigationOptions = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  iphoneXTop: {
-    height: Platform.OS === "ios" ? 100 : 80
+    flex: 1,
+    marginTop: Platform.OS === "ios" ? 40 : 0
   },
   background: {
     position: 'absolute',

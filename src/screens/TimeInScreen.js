@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    marginTop: Platform.OS === "ios" ? 0 : 40
+    marginTop: Platform.OS === "ios" ? 20 : 40
   },
   background: {
     position: 'absolute',
