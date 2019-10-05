@@ -15,14 +15,12 @@ export default MapModal = ({setLocation, onClose}) => {
     const [markerText, setMarkerText] = useState(true)
     const [addr, setAddr] = useState("Loading address...")
     const [state, globalActions] = useGlobalState()
-    const rotate = useRotate(100);
+    const rotate = useRotate();
     const marker = require('../config/images/marker.png')
     const logo = require("../config/images/VaroLogo.png");
 
     useEffect(()=>{
-        setTimeout(()=>{
-            getCurrentLocation()
-        },2000)
+        getCurrentLocation()
         return () =>{
             Geolocation.stopObserving();
         }
