@@ -21,9 +21,8 @@ export default TimeInScreen = ({navigation}) => {
     const background = require('../config/images/psbackground.png');
 
     useInterval(() => {
-        if(onClock){ 
+        if(onClock)
             setNow(new Date().getTime() - onTime)
-        }
     }, 100);
 
     useEffect(()=>{
