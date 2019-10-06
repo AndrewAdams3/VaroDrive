@@ -74,7 +74,7 @@ export default ProfileScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={{flex: .5, width: '100%'}}>
-          <View style={{ flex: .75, marginHorizontal: 5, backgroundColor: 'transparent', flexDirection: 'row'}}>
+          <View style={{ flex: .75, marginHorizontal: 5, backgroundColor: 'transparent', flexDirection: 'row', justifyContent: "space-around", alignItems: "center"}}>
             <TouchableOpacity style={styles.bottomButtons} onPress={() => navigation.navigate("ViewDBs")}>
               <Text style={{ color: 'white', fontSize: 20 }}>View Properties</Text>
             </TouchableOpacity>
@@ -138,16 +138,16 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   bottomButtons:{
-    width: '50%',
+    flex: 1,
+    height: "100%",
+    margin: 3,
     backgroundColor: colors.PRIMARY_BACKGROUND,
     justifyContent: 'center',
     alignItems: 'center',
     opacity: .9,
     borderWidth: 1,
     borderColor: colors.SECONDARY_BACKGROUND,
-    borderRadius: 10,
-    borderBottomEndRadius: 0,
-    borderBottomLeftRadius: 0
+    borderRadius: 10
   }, 
   profilePic: {
     height: 195, 

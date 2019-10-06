@@ -43,7 +43,7 @@ export default LoginScreen = ({navigation}) => {
                 setErr("")
                 if ( data.seshId && data.verified ) {
                   storeToken(data.seshId);
-                  actions.login();
+                  actions.login(data);
                   actions.setUserId(userId);
                   navigation.navigate('App');
                 } else {

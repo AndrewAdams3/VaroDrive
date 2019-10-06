@@ -15,8 +15,20 @@ const initialState = {
 };
  
 const actions = {
-  login: (store) => {
-      store.setState({...store, loggedIn: true});
+  login: (store, {user}) => {
+    const { _id, fName, lName, loggedIn, profilePic, email, city, State } = user;
+    store.setState({      
+      ...store, 
+      loggedIn: true,
+      userId: _id ? _id : store.state.userId,
+      fName: fName ? fName : store.state.fName,
+      lName: lName ? lName : store.state.fName,
+      loggedIn: loggedIn ? loggedIn : store.state.loggedIn,
+      profilePic: profilePic ? profilePic : store.state.profilePic,
+      email: email ? email : store.state.email,
+      city: city ? city : store.state.city,
+      State: State ? State : store.state.State
+    })
   },
   logout: (store) => {
     store.setState(initialState);
