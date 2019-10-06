@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         width: '100%',
-        marginTop: Platform.OS === "ios" ? 100 : 80,
+        marginTop: Platform.OS === "ios" ? 120 : 80,
     },
     background: {
       position: 'absolute',

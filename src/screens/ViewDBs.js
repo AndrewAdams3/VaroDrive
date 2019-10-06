@@ -243,7 +243,7 @@ export default ViewDBs = ({navigation}) => {
         <StatusBar barStyle='dark-content' />
       </View >
     ) : (
-      <View style={[styles.container, modal2Visible ? { opacity: .8 } : {}]}>
+      <View style={[styles.container, modal2Visible ? { opacity: .8 } : {}, {marginTop: Platform.OS === "ios" ? 24 : 0}]}>
         <Modal
           animationType='fade'
           transparent={true}
@@ -287,7 +287,6 @@ const styles=StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     width: '100%',
-    height: '100%',
   },
   background: {
     position: 'absolute',
