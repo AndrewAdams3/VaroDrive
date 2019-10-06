@@ -15,53 +15,48 @@ export default SignUpScreen = ({navigation}) => {
     const [state, actions] = useGlobal();
     const [email, setEmail] = useState("")
     const [password, setPass] = useState("")
-    const [loginSuccess, setLoggedIn] = useState(false)
     const [err, setErr] = useState("")
-    const [uId, setUid] = useState("")
-    const [sId, setSid] = useState("")
 
     logo = require("../config/images/VaroLogo.png");
     bg = require('../config/images/psbackground.png');
     usernameIcon = require('../config/images/usernameIcon.png');
     passwordIcon = require('../config/images/passwordIcon.png');
 
-    storeToken = async (accessToken) => {
+    const storeToken = async (accessToken) => {
         try {
         await AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
         } catch (error) {
         }
     }
 
-  signup = async () => {
-    var url = 'https://' + constants.ip + ':3210/data/users/signup';
-    var signup = true;
-    if(email != '' && password != ''){
-        const expression = /\S+@\S+/
-        const valid = expression.test(String(email).toLowerCase())
-        if(!valid){
-            setErr("Invalid email")
-            return;
-        }
-        await Axios.post(url, {
-          email: email,
-          password: password
-        }).then(function ({data}) {
-            if (data.created === true) {
-                setLoggedIn(signup)
-                setUid(data.userId)
-                setSid(data.seshId)
-                storeToken(sId)
-                actions.login()
-                navigation.navigate('NotVerified')
-            }
-            else{
-              signup = false
-              setErr("Unable to sign up")
-            }
-          }).catch(function (error) {
-            setErr("Error signing up")
-          })
-    }
+    const signup = async () => {
+      var url = 'https://' + constants.ip + ':3210/data/users/signup';
+      if(email != '' && password != ''){
+          const expression = /\S+@\S+/
+          const valid = expression.test(String(email).toLowerCase())
+          if(!valid){
+              setErr("Invalid email")
+              return;
+          }
+          await Axios.post(url, {
+            email: email,
+            password: password
+          }).then(({data}) => {
+            console.log("su", data)
+              if (data.created === true) {
+                  storeToken(data.seshId)
+                  actions.login(data)
+                  navigation.navigate('NotVerified')
+              }
+              else{
+                signup = false
+                setErr("Unable to sign up")
+              }
+            }).catch(function (error) {
+              console.log("err", error);
+              setErr("Error signing up")
+            })
+      }
   };
     
   return (
