@@ -41,16 +41,7 @@ const LIMIT = [
 ];
 
 export default ViewDBs = ({navigation}) => {
-    state={
-      data: [],
-      refresh: false,
-      loading: true,
-      sort: "-date",
-      sortType: "Date",
-      showing: "",
-      number: 20,
-      modal2Visible: false
-    }
+
     const [data, setData] = useState([])
     const [refresh, setFresh] = useState(false)
     const [loading, setLoading] = useState(true)

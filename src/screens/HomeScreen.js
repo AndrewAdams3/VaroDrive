@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, Platform, TouchableOpacity, StyleSheet, Image, ImageBackground } from 'react-native';
+import { View, Text, Platform, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native';
 import colors from '../config/styles/colors'
 import Images from '../config/images/index'
 
+const {height, width} = Dimensions.get("screen")
 export default HomeScreen = ({navigation}) => {
     const handlePress = (nav) => {
         navigation.navigate(nav)
@@ -43,13 +44,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         width: '100%',
-        marginTop: Platform.OS === "ios" ? 120 : 80,
+        paddingTop: 80,
     },
     background: {
       position: 'absolute',
-      top: 0, left: 0,
-      height: '100%',
-      width: '100%',
+      top: 0, bottom: 0, left: 0, right: 0,
+      width: width,
+      height: height,
       opacity: 0.9,
     },
     TextHeader: {
