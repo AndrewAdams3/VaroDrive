@@ -13,13 +13,14 @@ import { colors } from '../config/styles'
 import Axios from 'axios';
 import useGlobalState from '../State'
 import constants from '../config/constants'
+import Images from '../config/images/index'
+
 
 export default ViewAssignments = ({navigation}) => {
     const [{userId}, actions] = useGlobalState()
     const [assignments, setAssignments] = useState([])
     const [task, setTask] = useState({})
     const [activeSections, setActiveSections] = useState([])
-    const bg = require('../config/images/psbackground.png');
 
     useEffect(()=>{
         populate()
@@ -79,7 +80,7 @@ export default ViewAssignments = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <Image source={bg} style={styles.background} />
+        <Image source={Images.psBackground} style={styles.background} />
         <View style={{flex: 1, padding: 5, paddingTop: Platform.OS === "ios" ? 120 : 100}}>
         { task &&
           <View style={{flex: .3, width: "100%", justifyContent: "flex-start", padding: 5, marginBottom: 10}}>      

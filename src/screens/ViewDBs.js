@@ -16,6 +16,7 @@ import Axios from 'axios';
 import constants from '../config/constants'
 
 import LoadImage from '../components/LoadImage';
+import Images from '../config/images/index'
 import useGlobalState from '../State'
 
 const WIDTH = Dimensions.get('screen').width;
@@ -40,16 +41,7 @@ const LIMIT = [
 ];
 
 export default ViewDBs = ({navigation}) => {
-    state={
-      data: [],
-      refresh: false,
-      loading: true,
-      sort: "-date",
-      sortType: "Date",
-      showing: "",
-      number: 20,
-      modal2Visible: false
-    }
+
     const [data, setData] = useState([])
     const [refresh, setFresh] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -60,7 +52,6 @@ export default ViewDBs = ({navigation}) => {
     const [modal2Visible, setModal2Visible] = useState(false)
 
     const [{userId}, actions] = useGlobalState()
-    const background = require('../config/images/psbackground.png')
 
     useEffect(()=> {
         getDriveBys()
@@ -252,7 +243,7 @@ export default ViewDBs = ({navigation}) => {
           onRequestClose={() => { () => setModal2Visible(false) }}>
           {showPic()}
         </Modal>
-        <Image source={background} style={styles.background} />
+        <Image source={Images.psBackground} style={styles.background} />
         <HeaderBar/>
         <View style={{ flex: 3, alignContent: 'center', justifyContent: 'space-around' }}>
           <FlatList

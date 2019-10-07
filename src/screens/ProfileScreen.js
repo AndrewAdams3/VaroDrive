@@ -13,6 +13,7 @@ import FastImage from 'react-native-fast-image'
 
 import constants from '../config/constants' 
 import useGlobalState from '../State'
+import Images from '../config/images/index'
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -33,7 +34,6 @@ export default ProfileScreen = ({navigation}) => {
         }
     },[])
     
-    const background = require('../config/images/psbackground.png')
 
     const removeToken = async () => {
         try {
@@ -52,7 +52,7 @@ export default ProfileScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <Image source={background} style={styles.background}/>
+        <Image source={Images.psBackground} style={styles.background}/>
         <View style={{flex: Platform.OS === 'ios' ? .8 : .5, width: '100%', alignContent: 'center', justifyContent: 'center'}}>          
           <Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>{(fName === "") ? ("Welcome!") : ("Hi " + capitalize(fName) + "!")}</Text>
         </View>      

@@ -19,7 +19,7 @@ export default LandingScreen = ({navigation}) => {
     const [err, setErr] = useState()
     useEffect(()=>{
         _bootstrapAsync()
-        Platform.OS === "android" ? requestLocationPermission() : ()=>{}
+        if(Platform.OS === "android") requestLocationPermission()
     },[])
 
     const requestLocationPermission = async () => {

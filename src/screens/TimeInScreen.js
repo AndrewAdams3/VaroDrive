@@ -5,6 +5,8 @@ import useGlobal from '../State'
 import colors from '../config/styles/colors'
 import constants from '../config/constants'
 import useInterval from '../hooks/useInterval'
+import Images from '../config/images/index'
+
 
 import Axios from 'axios';
 
@@ -16,9 +18,6 @@ export default TimeInScreen = ({navigation}) => {
     const [offTime, setOffTime] = useState(-1)
     const [{onClock, userId, location}, actions] = useGlobal()
     const [fresh, refresh] = useState(false);
-
-    const newTime = require('../config/images/TimeIn.png');
-    const background = require('../config/images/psbackground.png');
 
     useInterval(() => {
         if(onClock)
@@ -199,7 +198,7 @@ export default TimeInScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <Image style={styles.background} source={ background } />
+        <Image style={styles.background} source={ Images.psBackground } />
         <View style={{ height: '5%' }} />
         <View style={[styles.container, {paddingLeft: 10, paddingRight: 10}]}>
           <View style={[styles.locationView, {paddingTop: Platform.OS === "ios" ? 80 : 0}]} >
@@ -212,7 +211,7 @@ export default TimeInScreen = ({navigation}) => {
             style={styles.newTime}
               onPress={ clockPress.bind(this)}
             >
-              <Image source={newTime} style={{height: 200, width: 200, resizeMode:'stretch', tintColor: 'white'}} />
+              <Image source={Images.TimeIn} style={{height: 200, width: 200, resizeMode:'stretch', tintColor: 'white'}} />
             </TouchableOpacity>
             <View style={styles.timeTableContainer}>
               <Text style={[styles.timeTable, {borderRightColor: 'white'}]}>Time In</Text>

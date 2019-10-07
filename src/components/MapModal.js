@@ -6,6 +6,8 @@ import Axios from 'axios'
 import colors from '../config/styles/colors'
 import useGlobalState from '../State'
 import useRotate from '../hooks/useRotate'
+import Images from '../config/images'
+import useInterval from '../hooks/useInterval'
 
 export default MapModal = ({setLocation, onClose}) => {
 
@@ -16,8 +18,6 @@ export default MapModal = ({setLocation, onClose}) => {
     const [addr, setAddr] = useState("Loading address...")
     const [state, globalActions] = useGlobalState()
     const rotate = useRotate();
-    const marker = require('../config/images/marker.png')
-    const logo = require("../config/images/VaroLogo.png");
 
     useEffect(()=>{
         getCurrentLocation()
@@ -89,7 +89,7 @@ export default MapModal = ({setLocation, onClose}) => {
                 <Marker coordinate={{longitude: lon, latitude: lat}} onPress={(e)=>setMarkerText(!markerText)}>
                     <View style={{width: 100, heigth: 100, justifyContent: "center", alignItems: "center"}}>
                         {markerText && <Text style={{textAlign: "center", width: "100%"}}>{addr}</Text> }
-                        <Image source={marker} style={{width: 50, height: 50}} resizeMode="center"/>
+                        <Image source={Images.marker} style={{width: 50, height: 50}} resizeMode="center"/>
                     </View>
                 </Marker>
             </MapView>
@@ -109,7 +109,7 @@ export default MapModal = ({setLocation, onClose}) => {
     (
         <View style={{flex: 1, width: "100%", justifyContent: "center", alignItems:"center"}}>
             <Text style={{position: "absolute", width: "100%", top: 50, textAlign: "center", color: "black"}}>Loading location...</Text>
-            <Animated.Image source={logo} style={{width: 200, height: 200, transform:[{rotateZ: rotate}]}} resizeMode="center" />
+            <Animated.Image source={Images.VaroLogo} style={{width: 200, height: 200, transform:[{rotateZ: rotate}]}} resizeMode="center" />
         </View>
     )
 }

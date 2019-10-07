@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import useGlobal from '../State'
 import colors from '../config/styles/colors'
 import constants from '../config/constants'
+import Images from '../config/images/index'
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height; 
@@ -16,11 +17,6 @@ export default SignUpScreen = ({navigation}) => {
     const [email, setEmail] = useState("")
     const [password, setPass] = useState("")
     const [err, setErr] = useState("")
-
-    logo = require("../config/images/VaroLogo.png");
-    bg = require('../config/images/psbackground.png');
-    usernameIcon = require('../config/images/usernameIcon.png');
-    passwordIcon = require('../config/images/passwordIcon.png');
 
     const storeToken = async (accessToken) => {
         try {
@@ -60,20 +56,20 @@ export default SignUpScreen = ({navigation}) => {
     
   return (
     <View style={styles.container}>
-    <Image style={styles.background} source={bg}></Image>
+    <Image style={styles.background} source={Images.psBackground}></Image>
     <View style={{ flex: 1, paddingBottom: 10, width: "100%" }}>
       <View style={{ height: 20 }} />
       <View style={{ flex: 1, width: "100%", justifyContent: 'center' }}>
         <ScrollView scrollEnabled={false} style={{ flex: 1, width: "100%" }}>
           <KeyboardAvoidingView keyboardVerticalOffset={10} behavior="padding" style={{ flex: 1, width: "100%", marginBottom: 60 }}>
-            <Image style={[styles.logo, { height: 150 }]} source={logo} />
+            <Image style={[styles.logo, { height: 150 }]} source={Images.VaroLogo} />
             <View style={{ flex: 1, paddingTop: 60, width: "100%" }}>
               <View style={{ paddingBottom: 10, width: "100%" }}>
                 <Text style={{ alignSelf: 'center', color: "red", paddingBottom: 10 }}>
                   {err}
                 </Text>
                 <View style={styles.inputContainer}>
-                    <Image source={usernameIcon} style={styles.inlineImage} resizeMode="center"/>
+                    <Image source={Images.usernameIcon} style={styles.inlineImage} resizeMode="center"/>
                     <TextInput
                         keyboardType="email-address"
                         placeholder="email..."
@@ -88,7 +84,7 @@ export default SignUpScreen = ({navigation}) => {
                 </View>
               </View>
               <View style={styles.inputContainer}>
-                <Image source={passwordIcon} style={styles.inlineImage} resizeMode="center"/>
+                <Image source={Images.passwordIcon} style={styles.inlineImage} resizeMode="center"/>
                 <TextInput
                     placeholder="password..."
                     autoCapitalize="none"
