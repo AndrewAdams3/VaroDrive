@@ -74,6 +74,8 @@ export default LandingScreen = ({navigation}) => {
           if(data.isVerified) {
             res.verified = true
           };
+        } else {
+          console.log("user not found")
         }
       }).catch((err)=>{
         setErr("error getting user")

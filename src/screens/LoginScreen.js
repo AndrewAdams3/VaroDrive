@@ -41,7 +41,6 @@ export default LoginScreen = ({navigation}) => {
                 if ( data.seshId && data.verified ) {
                   storeToken(data.seshId);
                   actions.login(data);
-                  actions.setUserId(userId);
                   navigation.navigate('App');
                 } else {
                   navigation.navigate('Setup');
