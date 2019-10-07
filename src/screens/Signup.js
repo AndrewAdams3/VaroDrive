@@ -42,7 +42,6 @@ export default SignUpScreen = ({navigation}) => {
             email: email,
             password: password
           }).then(({data}) => {
-            console.log("su", data)
               if (data.created === true) {
                   storeToken(data.seshId)
                   actions.login(data)
