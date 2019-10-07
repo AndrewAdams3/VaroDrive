@@ -58,7 +58,7 @@ export default LoginScreen = ({navigation}) => {
         }
     };
 
-    return(
+    return (
         <View style={styles.container}>
         <Image style={styles.background} source={bg}></Image>
         <View style={{ flex: 1, paddingBottom: 10, width: "100%" }}>

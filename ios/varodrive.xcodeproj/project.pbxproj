@@ -658,7 +658,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.varo.varodrive;
 				PRODUCT_NAME = varodrive;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -678,7 +678,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.varo.varodrive;
 				PRODUCT_NAME = varodrive;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
