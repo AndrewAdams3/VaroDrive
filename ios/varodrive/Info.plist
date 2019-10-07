@@ -41,8 +41,6 @@
 	<string>VaroDrive requires access to the camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>VaroDrive requires your location to find properties.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>VaroDrive requires your location to find properties.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>VaroDrive requires access to the photo library.</string>
 	<key>UILaunchStoryboardName</key>

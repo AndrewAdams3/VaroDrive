@@ -13,6 +13,7 @@ import axios from 'axios';
 import colors from '../config/styles/colors'
 import ImageButton from '../components/ImageButton.js';
 import useGlobalState from '../State'
+import Images from '../config/images'
 
 const initialState = {     
     _city: "",
@@ -45,8 +46,6 @@ export default EditProfile = ({navigation}) => {
     },[profilePic])
 
     const [_state, dispatch] = useReducer(reducer, initialState);
-    const background = require('../config/images/psbackground.png')
-    const right = require('../config/images/trighticon.png')
 
     const submitChanges = () => {
         var url = 'https://' + constants.ip + ':3210/data/users/update';
@@ -172,7 +171,7 @@ export default EditProfile = ({navigation}) => {
             <View style={styles.resultContainer}>
                 <Text numberOfLines={1} style={{ color: 'white', textAlign: "left" }}>{p.old || (p.title + "...")}</Text>
             </View>
-            <Image source={right} style={styles.indicator} />
+            <Image source={Images.trighticon} style={styles.indicator} />
             <View style={[styles.resultContainer, { padding: 10, borderColor: _state[p.type] ? 'green' : colors.PRIMARY_BACKGROUND}]}>
                 <Text numberOfLines={1} style={{color: 'white', textAlign: "left"}}>{_state[p.type] || p.old}</Text>
             </View>
@@ -183,7 +182,7 @@ export default EditProfile = ({navigation}) => {
     return(
       <View style={styles.container}>
         <ScrollView>
-          <Image source={background} style={styles.background} />
+          <Image source={Images.psBackground} style={styles.background} />
            <View style={styles.main}>
             <Pic />
             {Field({title: "First Name", type: "_fName"})}

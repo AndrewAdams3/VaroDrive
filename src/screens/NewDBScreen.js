@@ -8,6 +8,8 @@ import constants from '../config/constants'
 import AlertPopup from '../components/AlertPopup.js'
 import useGlobal from '../State'
 import MapModal from '../components/MapModal'
+import Images from '../config/images/index'
+
 
 const initialState = {     
     city: "",
@@ -79,9 +81,6 @@ export default NewDBScreen = ({navigation}) => {
     const [lon, setLon] = useState()
     const [hasSet, setHasSet] = useState(false)
     const [modalShow, setModalShow] = useState(false)
-    const circle = require('../config/images/circle.png');
-    const bg = require('../config/images/psbackground.png');
-    const addImage = require('../config/images/plus.png');
 
     const formItem = (num) => {
         var placeholder
@@ -137,19 +136,19 @@ export default NewDBScreen = ({navigation}) => {
             <Text style={{ fontSize: 20, color: 'white' }}>- Type</Text>
             <View style={{ paddingTop: 5, alignItems: 'flex-start', justifyContent: 'flex-start', flexDirection: 'column', marginHorizontal: 10, borderRadius: 5 }}>
             <TouchableOpacity onPress={() => dispatch({type: "type", value: "LOT"})} style={{ paddingVertical: 7, flex: 1, width: "100%", flexDirection: 'row' }}>
-                <Image source={circle} style={{ height: 20, width: 20, tintColor: state.type === "LOT" ? colors.PRIMARY_BACKGROUND : 'transparent', borderRadius: Platform.OS === "ios" ? 10 : 15, borderWidth: 2, borderColor: colors.PRIMARY_BACKGROUND }}/>
+                <Image source={Images.circle} style={{ height: 20, width: 20, tintColor: state.type === "LOT" ? colors.PRIMARY_BACKGROUND : 'transparent', borderRadius: Platform.OS === "ios" ? 10 : 15, borderWidth: 2, borderColor: colors.PRIMARY_BACKGROUND }}/>
                 <Text style={styles.formText}>Lot</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => dispatch({type: "type", value: "SFR"})} style={{ paddingVertical: 7, flex: 1, width: "100%", flexDirection: 'row' }}>
-                <Image source={circle} style={{ height: 20, width: 20, tintColor: state.type === "SFR" ? colors.PRIMARY_BACKGROUND : 'transparent', borderRadius: Platform.OS === "ios" ? 10 : 15, borderWidth: 2, borderColor: colors.PRIMARY_BACKGROUND}} />
+                <Image source={Images.circle} style={{ height: 20, width: 20, tintColor: state.type === "SFR" ? colors.PRIMARY_BACKGROUND : 'transparent', borderRadius: Platform.OS === "ios" ? 10 : 15, borderWidth: 2, borderColor: colors.PRIMARY_BACKGROUND}} />
                 <Text style={styles.formText}>Single-Family Residence</Text>
             </TouchableOpacity>  
             <TouchableOpacity onPress={() => dispatch({type: "type", value: "MFR"})} style={{ paddingVertical: 7, flex: 1, width: "100%", flexDirection: 'row' }}>
-                <Image source={circle} style={{ height: 20, width: 20, tintColor: state.type === "MFR" ? colors.PRIMARY_BACKGROUND : 'transparent', borderRadius: Platform.OS === "ios" ? 10 : 15, borderWidth: 2, borderColor: colors.PRIMARY_BACKGROUND }} />
+                <Image source={Images.circle} style={{ height: 20, width: 20, tintColor: state.type === "MFR" ? colors.PRIMARY_BACKGROUND : 'transparent', borderRadius: Platform.OS === "ios" ? 10 : 15, borderWidth: 2, borderColor: colors.PRIMARY_BACKGROUND }} />
                 <Text style={styles.formText}>Multi-Family Residence</Text>
             </TouchableOpacity> 
             <TouchableOpacity onPress={() => dispatch({type: "type", value: "COM"})} style={{ paddingVertical: 7, flex: 1, width: "100%", flexDirection: 'row' }}>
-                <Image source={circle} style={{ height: 20, width: 20, tintColor: state.type === "COM" ? colors.PRIMARY_BACKGROUND : 'transparent', borderRadius: Platform.OS === "ios" ? 10 : 15, borderWidth: 2, borderColor: colors.PRIMARY_BACKGROUND }} />
+                <Image source={Images.circle} style={{ height: 20, width: 20, tintColor: state.type === "COM" ? colors.PRIMARY_BACKGROUND : 'transparent', borderRadius: Platform.OS === "ios" ? 10 : 15, borderWidth: 2, borderColor: colors.PRIMARY_BACKGROUND }} />
                 <Text style={styles.formText}>Commercial</Text>
             </TouchableOpacity>          
             </View>
@@ -269,7 +268,7 @@ export default NewDBScreen = ({navigation}) => {
             :
             <ScrollView style={{marginTop: 50}}>
                 <TouchableOpacity style={{ marginHorizontal: '30%', marginVertical: '10%' }} onPress={openCamera}>
-                    <Image source={state.hasPic ? state.avatar : addImage} resizeMode="center" style={{alignSelf: 'center', height: 70, width: 70}} />
+                    <Image source={state.hasPic ? state.avatar : Images.plus} resizeMode="center" style={{alignSelf: 'center', height: 70, width: 70}} />
                     <Text style={{ marginTop: 20, alignSelf: 'center', fontSize: 20, color: 'white', height: 25 }}>{state.avatar ? "Change Image" : "Add Image"}</Text>
                 </TouchableOpacity>
                 { hasSet &&
@@ -310,7 +309,7 @@ export default NewDBScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <Image source={bg} style={styles.background} />
+        <Image source={Images.psBackground} style={styles.background} />
         <Modal visible={modalShow} onDismiss={()=>setModalShow(false)}>
             {<MapModal onClose={()=>{setModalShow(false); setHasSet(true)}} setLocation={setLocation}/>}
         </Modal>

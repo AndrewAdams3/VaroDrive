@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import axios from 'axios'
 import useGlobal from '../State'
+import Images from '../config/images/index'
 
 export default NotVerifiedScreen = ({navigation}) => {
     const [verified, setVerified] = useState(true);
     const [{userId}, actions] = useGlobal();
-    const bg = require('../config/images/psbackground.png');
-    const logo = require("../config/images/VaroLogo.png");
 
     const isVerified = () => {
       var url = 'https://' + constants.ip + ':3210/data/users/signup/isVerified/' + userId;
@@ -26,10 +25,10 @@ export default NotVerifiedScreen = ({navigation}) => {
 
     return(
       <View style={styles.container}>
-        <Image source={bg} style={styles.background} />
+        <Image source={Images.psBackground} style={styles.background} />
         <View style={styles.container}>
           <TouchableOpacity style={{flex: .6}} onPress={isVerified}>
-            <Image source={logo} style={styles.logo} />
+            <Image source={Images.VaroLogo} style={styles.logo} />
           </TouchableOpacity>
           <View style={[styles.container, {flex: .4}]}>
             <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>

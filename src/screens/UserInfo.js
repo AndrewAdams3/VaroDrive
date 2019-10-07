@@ -4,14 +4,12 @@ import axios from 'axios'
 import colors from '../config/styles/colors'
 import constants from '../config/constants'
 import useGlobal from '../State';
+import Images from '../config/images/index'
 
 const HEIGHT = Dimensions.get('screen').height;
 const WIDTH = Dimensions.get('screen').width;
 
 export default UserInfoScreen = ({navigation}) => {
-
-    const bg = require('../config/images/psbackground.png');
-    const logo = require("../config/images/VaroLogo.png");
 
     const [{userId}, actions] = useGlobal();
     const [has_fname, setfname] = useState(false)
@@ -149,7 +147,7 @@ export default UserInfoScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <Image source={bg} style={styles.background} />
+        <Image source={Images.psBackground} style={styles.background} />
         <Modal
           animationType='fade'
           transparent={true}
@@ -163,7 +161,7 @@ export default UserInfoScreen = ({navigation}) => {
             contentContainerStyle={{ opacity: modalVisible ? 0 : 1 }}
         >
           <View style={{flex: .3}}>
-            <Image source={logo} style={styles.logo}/>
+            <Image source={Images.VaroLogo} style={styles.logo}/>
           </View>
           <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
             <Text style={{ fontSize: 16, color: incomplete && !allDone ? 'red' : 'white'}}>

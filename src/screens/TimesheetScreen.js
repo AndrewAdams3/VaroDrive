@@ -5,6 +5,7 @@ import constants from '../config/constants'
 import Axios from 'axios';
 import CalendarPicker from 'react-native-calendar-picker'
 import useGlobalState from '../State'
+import Images from '../config/images/index'
 
 export default TimeSheetScreen = ({navigation}) => {
     const [times, setTimes] = useState([])
@@ -13,7 +14,6 @@ export default TimeSheetScreen = ({navigation}) => {
     const [selectedStartDate, setSelectedStartDate] = useState(false)
     const [{userId}, actions] = useGlobalState()
     const [refresh, setFresh] = useState(false)
-    const background = require('../config/images/psbackground.png');
 
     useEffect(()=>{
         var url = 'https://' + constants.ip + ':3210/data/times/byId/' + userId + "/" + "30";
@@ -157,7 +157,7 @@ export default TimeSheetScreen = ({navigation}) => {
     return(
       <View style={styles.container}>
       <View style={styles.iphoneXTop}/>
-      <Image style={styles.background} source={background} />
+      <Image style={styles.background} source={Images.psBackground} />
         <Modal
           animationType="slide"
           transparent={false}
