@@ -58,7 +58,7 @@ const AppNav = createStackNavigator({
       headerStyle: {
         backgroundColor: colors.PRIMARY_BACKGROUND,
         opacity: 1,
-        height: Platform.os === "ios" ? 60 : 80,
+        height: Platform.OS === "ios" ? 60 : 80,
       },
       headerTitleStyle: {
         fontWeight: 'bold',

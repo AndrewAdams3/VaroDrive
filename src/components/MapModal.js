@@ -80,7 +80,7 @@ export default MapModal = ({setLocation, onClose}) => {
                    pitch: 0,
                    altitude: pos.altitude,
                    heading: 0,
-                   zoom: 20 
+                   zoom: 20,
                 }}
                 pitchEnabled={false}
                 toolbarEnabled={false}
