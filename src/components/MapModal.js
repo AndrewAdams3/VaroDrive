@@ -7,7 +7,6 @@ import colors from '../config/styles/colors'
 import useGlobalState from '../State'
 import useRotate from '../hooks/useRotate'
 import Images from '../config/images'
-import useInterval from '../hooks/useInterval'
 
 export default MapModal = ({setLocation, onClose}) => {
 
@@ -85,6 +84,11 @@ export default MapModal = ({setLocation, onClose}) => {
                 }}
                 pitchEnabled={false}
                 toolbarEnabled={false}
+                showsUserLocation={true}
+                followsUserLocation={true}
+                showsMyLocationButton={true}
+                showsCompass={true}
+                showsPointsOfInterest={false}
             >
                 <Marker coordinate={{longitude: lon, latitude: lat}} onPress={(e)=>setMarkerText(!markerText)}>
                     <View style={{width: 100, heigth: 100, justifyContent: "center", alignItems: "center"}}>
