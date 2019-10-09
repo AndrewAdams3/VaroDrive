@@ -69,7 +69,7 @@ export default LoginScreen = ({navigation}) => {
                       {err}
                     </Text>
                     <View style={styles.inputContainer}>
-                        <Image source={Images.usernameIcon} style={styles.inlineImage} resizeMode="center"/>
+                        <Image source={Images.profile} style={styles.inlineImage} resizeMode="center"/>
                         <TextInput
                             keyboardType="email-address"
                             placeholder="email..."
