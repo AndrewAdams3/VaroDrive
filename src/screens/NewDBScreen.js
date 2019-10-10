@@ -1,5 +1,5 @@
 import React, { useState, useReducer } from 'react';
-import { View, Text, Alert, ScrollView, Modal, ActivityIndicator, Platform, TouchableOpacity, StyleSheet, Image, TextInput } from 'react-native';
+import { View, Text, Alert, ScrollView, Modal, ActivityIndicator, Platform, TouchableOpacity, Dimensions, StyleSheet, Image, TextInput } from 'react-native';
 import { colors } from '../config/styles'
 import ImagePicker from 'react-native-image-picker'
 
@@ -10,6 +10,7 @@ import useGlobal from '../State'
 import MapModal from '../components/MapModal'
 import Images from '../config/images/index'
 
+const { height, width } = Dimensions.get("screen");
 
 const initialState = {     
     city: "",
@@ -337,8 +338,8 @@ const styles = StyleSheet.create({
   },
   background: {
     position: 'absolute',
-    height: '100%',
-    width: '100%',
+    height: height,
+    width: width,
     opacity: .9,
     overlayColor: 'grey'
   },
