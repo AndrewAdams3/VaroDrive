@@ -181,8 +181,8 @@ export default EditProfile = ({navigation}) => {
 
     return(
       <View style={styles.container}>
+        <Image source={Images.psBackground} style={styles.background} />
         <ScrollView>
-          <Image source={Images.psBackground} style={styles.background} />
            <View style={styles.main}>
             <Pic />
             {Field({title: "First Name", type: "_fName"})}
