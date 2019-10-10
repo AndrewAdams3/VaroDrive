@@ -170,7 +170,7 @@ export default ViewDBs = ({navigation}) => {
     const HeaderBar = () => {
         if(Platform.OS === "android"){
         return(
-            <View style={{ width: '100%', height: 50, marginTop: 80, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: colors.SECONDARY_BACKGROUND }}>
+            <View style={{ width: '100%', height: 50, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: colors.SECONDARY_BACKGROUND }}>
             <Text style={{ color: 'white', textAlign: 'center', fontSize: 18 }}>{"Sort By: "}</Text>
             <Text style={{ color: 'white', textAlign: 'center', fontSize: 18 }}>{sortType}</Text>
             <Picker
@@ -212,7 +212,7 @@ export default ViewDBs = ({navigation}) => {
         )
         } else if(Platform.OS === "ios") { 
         return(
-            <View style={{ width: '100%', height: 50, marginTop: 100, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', backgroundColor: colors.SECONDARY_BACKGROUND }}>
+            <View style={{ width: '100%', height: 50, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', backgroundColor: colors.SECONDARY_BACKGROUND }}>
             <TouchableOpacity onPress={onSelectSort}>
                 <Text style={{color: 'white', textAlign: 'right', fontSize: 18 }}>
                 {"Sort By: " + sortType}

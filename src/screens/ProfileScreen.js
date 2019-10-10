@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: '100%',
     height: '100%',
-    marginTop: 80,
   },
   background: { 
     position: 'absolute', 

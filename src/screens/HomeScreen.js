@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         width: '100%',
-        paddingTop: 80,
     },
     background: {
       position: 'absolute',

@@ -201,7 +201,7 @@ export default TimeInScreen = ({navigation}) => {
         <Image style={styles.background} source={ Images.psBackground } />
         <View style={{ height: '5%' }} />
         <View style={[styles.container, {paddingLeft: 10, paddingRight: 10}]}>
-          <View style={[styles.locationView, {paddingTop: Platform.OS === "ios" ? 80 : 0}]} >
+          <View style={[styles.locationView]} >
             <Text numberOfLines = {2} style={{ flex: 1, height: 100, flexWrap: 'wrap', color: location ? 'white' : 'transparent', fontSize: 24, textAlign: 'center' }}>
               {location || "\n\n"}
             </Text>
@@ -249,7 +249,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    marginTop: Platform.OS === "ios" ? 20 : 40
   },
   background: {
     position: 'absolute',

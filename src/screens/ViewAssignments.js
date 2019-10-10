@@ -81,7 +81,7 @@ export default ViewAssignments = ({navigation}) => {
     return (
       <View style={styles.container}>
         <Image source={Images.psBackground} style={styles.background} />
-        <View style={{flex: 1, padding: 5, paddingTop: Platform.OS === "ios" ? 120 : 100}}>
+        <View style={{flex: 1, padding: 5}}>
         { task &&
           <View style={{flex: .3, width: "100%", justifyContent: "flex-start", padding: 5, marginBottom: 10}}>      
                 <Text style={{color: "white", fontSize: 20}}>-Current Target: {"\n\t"}<Text style={{fontSize: 22}} adjustsFontSizeToFit={true}>{task.area}</Text></Text>

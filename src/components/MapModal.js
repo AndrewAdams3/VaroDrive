@@ -16,7 +16,7 @@ export default MapModal = ({setLocation, onClose}) => {
     const [markerText, setMarkerText] = useState(true)
     const [addr, setAddr] = useState("Loading address...")
     const [state, globalActions] = useGlobalState()
-    const rotate = useRotate();
+    const rotate = useRotate(500);
 
     useEffect(()=>{
         getCurrentLocation()
@@ -94,7 +94,7 @@ export default MapModal = ({setLocation, onClose}) => {
                 <Marker coordinate={{longitude: lon, latitude: lat}} onPress={(e)=>setMarkerText(!markerText)}>
                     <View style={{width: 100, heigth: 100, justifyContent: "center", alignItems: "center"}}>
                         {markerText && <Text style={{textAlign: "center", width: "100%"}}>{addr}</Text> }
-                        <Image source={Images.marker} style={{width: 50, height: 50}} resizeMode="center"/>
+                        <Image source={Images.marker} style={{width: 50, height: 50}} resizeMode="center" key={"image-marker-key"}/>
                     </View>
                 </Marker>
             </MapView>

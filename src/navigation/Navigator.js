@@ -4,6 +4,7 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import colors from '../config/styles/colors'
 
+import Screen from '../components/Screen'
 import LoginScreen from '../screens/LoginScreen'
 import SignUpScreen from '../screens/Signup'
 import LandingScreen from '../screens/Landing'
@@ -18,6 +19,21 @@ import ViewAssignments from '../screens/ViewAssignments'
 import ViewDBs from '../screens/ViewDBs'
 import EditProfile from '../screens/EditProfile'
 
+
+const HeaderStyles = {
+    headerStyle: {
+        backgroundColor: colors.PRIMARY_BACKGROUND,
+        opacity: 1,
+        height: Platform.OS === "ios" ? 60 : 80,
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        flex: 1,
+        color: 'white',
+        fontSize: 30,
+        alignSelf: 'center',
+      },
+}
 const AuthStack = createStackNavigator({
     Login: LoginScreen,
     SignUp: SignUpScreen
@@ -44,14 +60,95 @@ const SetupStack = createStackNavigator({
 })
 
 const AppNav = createStackNavigator({
-    TimeIn: TimeInScreen,
-    TimeSheet: TimeSheetScreen,
-    Home: HomeScreen,
-    NewDB: NewDBScreen,
-    Profile: ProfileScreen,
-    Edit: EditProfile,
-    ViewAssignments: ViewAssignments,
-    ViewDBs: ViewDBs,
+    TimeIn: {
+        screen: (props) =>( 
+            <Screen>
+                <TimeInScreen {...props}/>
+            </Screen>
+        ),
+        path: '/timeIn',
+        navigationOptions: {
+            title: "Time Clock",
+            ...HeaderStyles
+        }
+    },
+    TimeSheet: {
+        screen: (props) =>( 
+            <Screen>
+                <TimeSheetScreen props={props}/>
+            </Screen>
+        ),
+        navigationOptions: {
+            title: "Time Sheet",
+            ...HeaderStyles
+        }
+    },
+    Home: {
+        screen: (props) =>( 
+            <Screen>
+                <HomeScreen {...props}/>
+            </Screen>
+        ),
+        navigationOptions: {
+            title: "Home",
+            ...HeaderStyles
+        }
+    },
+    NewDB: {
+        screen: (props) =>( 
+            <Screen>
+                <NewDBScreen {...props}/>
+            </Screen>
+        ),
+        navigationOptions: {
+            title: "New Driveby",
+            ...HeaderStyles
+        }
+    },
+    Profile: {
+        screen: (props) =>( 
+            <Screen>
+                <ProfileScreen {...props}/>
+            </Screen>
+        ),
+        navigationOptions: {
+            title: "Profile",
+            ...HeaderStyles
+        }
+    },
+    Edit: {
+        screen: (props) =>( 
+            <Screen>
+                <EditProfile {...props}/>
+            </Screen>
+        ),
+        navigationOptions: {
+            title: "Edit Profile",
+            ...HeaderStyles
+        }
+    },
+    ViewAssignments: {
+        screen: (props) =>( 
+            <Screen>
+                <ViewAssignments {...props}/>
+            </Screen>
+        ),
+        navigationOptions: {
+            title: "View Assignments",
+            ...HeaderStyles
+        }
+    },
+    ViewDBs: {
+        screen: (props) =>( 
+            <Screen>
+                <ViewDBs {...props}/>
+            </Screen>
+        ),
+        navigationOptions: {
+            title: "View Drivebys",
+            ...HeaderStyles
+        }
+    },
   },{ 
     initialRouteName: 'Home',
     defaultNavigationOptions: {
