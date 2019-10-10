@@ -268,7 +268,7 @@ export default NewDBScreen = ({navigation}) => {
                 style={{flex: 1, width: '100%', height: '100%'}} 
                 size='large'/>
             :
-            <ScrollView style={{marginTop: 50}}>
+            <ScrollView>
                 <TouchableOpacity style={{ marginHorizontal: '30%', marginVertical: '10%' }} onPress={openCamera}>
                     <Image source={state.hasPic ? state.avatar : Images.plus} resizeMode="center" style={{alignSelf: 'center', height: 70, width: 70}} key={"image-newdb-key"}/>
                     <Text style={{ marginTop: 20, alignSelf: 'center', fontSize: 20, color: 'white', height: 25 }}>{state.avatar ? "Change Image" : "Add Image"}</Text>
