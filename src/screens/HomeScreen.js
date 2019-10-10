@@ -17,22 +17,11 @@ export default HomeScreen = ({navigation}) => {
                 <Text style={styles.buttonText}>Profile</Text>
                 <Image style={styles.imageR} source={Images.arrowRight} />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.buttonsContainer]} onPress={() => {handlePress('TimeIn')}}>
-                <Image style={styles.image} source={Images.TimeIn} />
-                <Text style={styles.buttonText}>Time Clock</Text>
-                <Image style={styles.imageR} source={Images.arrowRight} />
-            </TouchableOpacity>
             <TouchableOpacity style={[styles.buttonsContainer]} onPress={() => {handlePress('NewDB')}}>
                 <Image style={[styles.image, {transform: [{scaleX:-1}] }]} source={Images.DriveBy} />
                 <Text style={styles.buttonText}>Drive By</Text>
                 <Image style={styles.imageR} source={Images.arrowRight} />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.buttonsContainer]} onPress={() => {handlePress('TimeSheet')}}>
-                <Image style={styles.image} source={Images.TimeSheet} />
-                <Text style={styles.buttonText}>Time Sheet</Text>
-                <Image style={styles.imageR} source={Images.arrowRight} />
-            </TouchableOpacity>
-            <View style={{height: Platform.OS === 'ios' ? 20 : 0}}/>
         </View>
         </View>
     ); 
