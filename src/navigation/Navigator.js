@@ -1,8 +1,9 @@
 import React from 'react'
-import { Platform } from 'react-native'
+import { Platform , TouchableOpacity, Image} from 'react-native'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import colors from '../config/styles/colors'
+import Images from '../config/images'
 
 import Screen from '../components/Screen'
 import LoginScreen from '../screens/LoginScreen'
@@ -89,10 +90,22 @@ const AppNav = createStackNavigator({
                 <HomeScreen {...props}/>
             </Screen>
         ),
-        navigationOptions: {
+        navigationOptions: (props) => ({
             title: "Home",
-            ...HeaderStyles
-        }
+            ...HeaderStyles,
+            headerLeftContainerStyle: {
+                justifyContent: "center",
+                alignItems: "flex-start",
+                height: "100%",
+                width: "15%",
+                padding: 10
+            },
+            headerLeft: (
+                <TouchableOpacity style={{flex: 1, width: "100%", justifyContent: "center", alignItems: "center"}} onPress={() => {props.navigation.navigate("Profile")}}>
+                    <Image style={{height: "100%", width: "100%", tintColor: "white"}} source={Images.profile} resizeMode="contain"/>
+                </TouchableOpacity>
+            )
+        })
     },
     NewDB: {
         screen: (props) =>( 

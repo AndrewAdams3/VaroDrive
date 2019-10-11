@@ -12,15 +12,10 @@ export default HomeScreen = ({navigation}) => {
         <View style={styles.container}>
         <Image source={Images.psBackground} style={styles.background}/>
         <View style={[styles.container, {marginTop: 0, paddingHorizontal: 20, paddingVertical: 10}]}>
-            <TouchableOpacity style={[styles.buttonsContainer]} onPress={() => {handlePress('Profile')}}>
-                <Image style={[styles.image, { transform: [{ scaleX: .7 }, { scaleY: .7 }]}]} source={Images.profile} />
-                <Text style={styles.buttonText}>Profile</Text>
-                <Image style={styles.imageR} source={Images.arrowRight} />
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.buttonsContainer]} onPress={() => {handlePress('NewDB')}}>
-                <Image style={[styles.image, {transform: [{scaleX:-1}] }]} source={Images.DriveBy} />
-                <Text style={styles.buttonText}>Drive By</Text>
-                <Image style={styles.imageR} source={Images.arrowRight} />
+            <TouchableOpacity style={styles.buttonsContainer} onPress={() => {handlePress('NewDB')}}>
+                <Image style={styles.image} source={Images.car} />
+                {/* <Text style={styles.buttonText}>Drive By</Text>
+                <Image style={styles.imageR} source={Images.arrowRight} /> */}
             </TouchableOpacity>
         </View>
         </View>
@@ -48,14 +43,14 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     buttonsContainer: {
-        width: '100%',
+        width: width*.8,
+        height: width*.8,
         justifyContent: 'space-around',
         alignItems: 'center',
         flexDirection: 'row',
         padding: 10,
-        flex: 1,
         borderWidth: 3,
-        borderRadius: 10,
+        borderRadius: width*.4,
         borderColor: colors.SECONDARY_BACKGROUND,
         backgroundColor: colors.PRIMARY_BACKGROUND,
         marginVertical: 3,
@@ -67,8 +62,9 @@ const styles = StyleSheet.create({
       textAlign: 'center'
     },
     image: {
-      flex: .5, 
-      tintColor: 'white', 
+      width: "50%",
+      height: "50%", 
+//      tintColor: 'white', 
       resizeMode: 'contain'
     },
     imageR: {

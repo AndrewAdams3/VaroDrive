@@ -69,7 +69,7 @@ export default LoginScreen = ({navigation}) => {
                       {err}
                     </Text>
                     <View style={styles.inputContainer}>
-                        <Image source={Images.profile} style={styles.inlineImage} resizeMode="center"/>
+                        <Image source={Images.profile} style={styles.inlineImage} resizeMode="contain"/>
                         <TextInput
                             keyboardType="email-address"
                             placeholder="email..."
@@ -84,7 +84,7 @@ export default LoginScreen = ({navigation}) => {
                     </View>
                   </View>
                   <View style={styles.inputContainer}>
-                    <Image source={Images.passwordIcon} style={styles.inlineImage} resizeMode="center"/>
+                    <Image source={Images.passwordIcon} style={styles.inlineImage} resizeMode="contain"/>
                     <TextInput
                         placeholder="password..."
                         autoCapitalize="none"

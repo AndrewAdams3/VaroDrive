@@ -14,5 +14,6 @@ export default Images = {
     TimeSheet: require("./TimeSheet.jpg"),
     trighticon: require('./trighticon.png'),
     usernameIcon: require('./usernameIcon.png'),
-    VaroLogo: require('./VaroLogo.png')
+    VaroLogo: require('./VaroLogo.png'),
+    car: require('./car.png')
 }
