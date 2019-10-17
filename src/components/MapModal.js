@@ -48,8 +48,8 @@ export default MapModal = ({setLocation, onClose}) => {
         Axios.get('https://' + constants.ip + ':3210/location/' + lat + "/" + lon)
         .then( ({data}) => {
             setLocation({
-                    county: data.state,
-                    state: data.county,
+                    county: data.county,
+                    state: data.state,
                     city: data.city,
                     postal: data.postal,
                     street: data.street,

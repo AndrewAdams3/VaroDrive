@@ -230,8 +230,8 @@ export default NewDBScreen = ({navigation}) => {
                 await axios.post(url,{
                     path: data.path,
                     id: userId,
-                    street: state.address, //user address
-                    address: state.street,  //google address
+                    street: state.street, //user address street one
+                    address: state.address,  //google address long one
                     date: new Date().getTime(),
                     offset: new Date().getTimezoneOffset(),
                     type: state.type,
