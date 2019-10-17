@@ -226,6 +226,7 @@ export default UserInfoScreen = ({navigation}) => {
                 onChangeText={(text) => setTemp4(text)}
                 onSubmitEditing={() => validateAndSet("state")}
                 onBlur={() => validateAndSet("state")}
+                maxLength={2}
                 autoCorrect={false}
               />
             </View>
