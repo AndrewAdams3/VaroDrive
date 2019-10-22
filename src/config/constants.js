@@ -1,3 +1,3 @@
 export default constants = {
-  ip: 'varodrive.xyz'
+  ip: 'http://129.8.216.101' // https://varodrive.xyz
 };

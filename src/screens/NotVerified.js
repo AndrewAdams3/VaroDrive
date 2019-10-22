@@ -9,7 +9,7 @@ export default NotVerifiedScreen = ({navigation}) => {
     const [{userId}, actions] = useGlobal();
 
     const isVerified = () => {
-      var url = 'https://' + constants.ip + ':3210/data/users/signup/isVerified/' + userId;
+      var url = constants.ip + ':3210/data/users/signup/isVerified/' + userId;
       axios.get(url)
         .then( ({data}) => {
           if(data.ok) {

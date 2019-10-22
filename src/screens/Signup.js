@@ -26,7 +26,7 @@ export default SignUpScreen = ({navigation}) => {
     }
 
     const signup = async () => {
-      var url = 'https://' + constants.ip + ':3210/data/users/signup';
+      var url = constants.ip + ':3210/data/users/signup';
       if(email != '' && password != ''){
           const expression = /\S+@\S+/
           const valid = expression.test(String(email).toLowerCase())

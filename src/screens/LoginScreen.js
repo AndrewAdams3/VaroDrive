@@ -29,7 +29,7 @@ export default LoginScreen = ({navigation}) => {
     }
     
     const login = async () => {
-        var url = 'https://' + constants.ip + ':3210/data/users/login';
+        var url = constants.ip + ':3210/data/users/login';
         var userId;
         if (email != '' && password != '') {
           Axios.post(url, {

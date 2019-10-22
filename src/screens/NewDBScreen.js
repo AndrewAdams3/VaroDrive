@@ -213,7 +213,7 @@ export default NewDBScreen = ({navigation}) => {
 
     }
     const handleSubmit = async () => {
-        var url = 'https://' + constants.ip + ':3210/data/drivebys/upload';
+        var url = constants.ip + ':3210/data/drivebys/upload';
         const post = state.post
         const config = {
             method: 'POST',
@@ -226,7 +226,7 @@ export default NewDBScreen = ({navigation}) => {
         if(state.State && state.city && state.street){
             await axios.post(url, post, config ).then( async ({data}) => {
             if (data.response == 0){
-                url = 'https://' + constants.ip + ':3210/data/drivebys/newDB';
+                url = constants.ip + ':3210/data/drivebys/newDB';
                 await axios.post(url,{
                     path: data.path,
                     id: userId,

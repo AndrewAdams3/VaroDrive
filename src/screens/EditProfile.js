@@ -48,7 +48,7 @@ export default EditProfile = ({navigation}) => {
     const [_state, dispatch] = useReducer(reducer, initialState);
 
     const submitChanges = () => {
-        var url = 'https://' + constants.ip + ':3210/data/users/update';
+        var url = constants.ip + ':3210/data/users/update';
         var fName = _state["_fName"] === undefined ? fName : _state["_fName"]
         var lName = _state["_lName"] === undefined ? lName : _state["_lName"]
         var email = _state["_email"] === undefined ? email : _state["_email"]
@@ -103,7 +103,7 @@ export default EditProfile = ({navigation}) => {
     }
 
     const submitPic = async () => {
-        var url = 'https://' + constants.ip + ':3210/data/users/profilePic';
+        var url = constants.ip + ':3210/data/users/profilePic';
 
         const config = {
             method: 'POST',
@@ -115,7 +115,7 @@ export default EditProfile = ({navigation}) => {
         console.log("config", config)
         await axios.post(url, _state._post, config).then(async ({data}) => {
         if (data.response == 0) {
-            url = 'https://' + constants.ip + ':3210/data/users/profilePic';
+            url = constants.ip + ':3210/data/users/profilePic';
             await axios.put(url, {
                 value: data.path,
                 id: userId
@@ -142,7 +142,7 @@ export default EditProfile = ({navigation}) => {
                 dispatch({type: "_picture", value: "file/uploads/profilePics/default.png"})
             }}
             style={styles.profilePic}
-            source={{uri:('https://' + constants.ip + ':3210/' + _state._profilePic)}}
+            source={{uri:(constants.ip + ':3210/' + _state._profilePic)}}
             resizeMode="cover"
             />
         </ImageButton>
