@@ -17,6 +17,9 @@ export default HomeScreen = ({navigation}) => {
                 {/* <Text style={styles.buttonText}>Drive By</Text>
                 <Image style={styles.imageR} source={Images.arrowRight} /> */}
             </TouchableOpacity>
+            <TouchableOpacity style={{width: "80%", height: height*.1, backgroundColor: colors.PRIMARY_BACKGROUND, borderRadius: 20, justifyContent: "center", alignItems: "center"}} onPress={()=>navigation.navigate("Map")}>
+                <Text style={{color: "white", fontSize: 16}}>Open Map</Text>
+            </TouchableOpacity>
         </View>
         </View>
     ); 

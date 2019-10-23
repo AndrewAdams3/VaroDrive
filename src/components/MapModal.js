@@ -45,7 +45,7 @@ export default MapModal = ({setLocation, onClose}) => {
     }
 
     const setLocationByCoords = (lat, lon) => {
-        Axios.get('https://' + constants.ip + ':3210/location/' + lat + "/" + lon)
+        Axios.get(constants.ip + ':3210/location/' + lat + "/" + lon)
         .then( ({data}) => {
             setLocation({
                     county: data.county,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform , TouchableOpacity, Image} from 'react-native'
+import { Platform , TouchableOpacity, Image, Easing, Animated} from 'react-native'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import colors from '../config/styles/colors'
@@ -19,6 +19,7 @@ import ProfileScreen from '../screens/ProfileScreen'
 import ViewAssignments from '../screens/ViewAssignments'
 import ViewDBs from '../screens/ViewDBs'
 import EditProfile from '../screens/EditProfile'
+import MapScreen from '../screens/MapScreen'
 
 
 const HeaderStyles = {
@@ -35,6 +36,30 @@ const HeaderStyles = {
         alignSelf: 'center',
       },
 }
+
+const transitionConfig = (sceneProps) => {
+    return {
+      transitionSpec: {
+        duration: 500,
+        easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+        useNativeDriver: true,
+      },
+      screenInterpolator: sceneProps => {      
+        const { layout, position, scene } = sceneProps
+  
+        const thisSceneIndex = scene.index
+  
+        const opacity = position.interpolate({
+          inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex+1],
+          outputRange: [0,1,1],
+        })
+  
+        return { opacity }
+      },
+    }
+  }
+
 const AuthStack = createStackNavigator({
     Login: LoginScreen,
     SignUp: SignUpScreen
@@ -107,6 +132,18 @@ const AppNav = createStackNavigator({
             )
         })
     },
+    Map: {
+        screen: (props) => (
+            <Screen>
+                <MapScreen {...props}/>
+            </Screen>
+        ),
+        navigationOptions: {
+            title: "Map",
+            ...HeaderStyles,
+        },
+        transitionConfig
+    },
     NewDB: {
         screen: (props) =>( 
             <Screen>
@@ -178,6 +215,7 @@ const AppNav = createStackNavigator({
         alignSelf: 'center',
       },
     },
+    transitionConfig: sceneProps => sceneProps.scene.route.routeName === 'Map' ? transitionConfig(sceneProps) : {}
 })
 
 export default Navigator = createAppContainer(createSwitchNavigator({
