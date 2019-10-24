@@ -4,32 +4,77 @@ import Geolocation from 'react-native-geolocation-service'
 
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps'
 
+import useStateCallback from '../hooks/useStateCallback'
+import Axios from 'axios';
+import Polyline from '@mapbox/polyline';
+import constants from '../config/constants'
+
+const AppFonts = {
+    regular: 'Akkurat-Normal',
+    bold: 'Akkurat-Bold',
+    light: 'Akkurat-Light'
+};
 
 export default function MapScreen(){
 
-    const [pos, setPos] = useState({})
+    const [pos, setPos] = useState();
+    const [sendPos, setSendPos] = useState("")
+    const [err, setErr] = useState("")
+    const [coords, setCoords] = useState([]) 
+    const [foundRoute, setFoundRoute] = useState(0)
+    const [userPos, setUserPos] = useState({})
+
     const mapRef = useRef()
 
     useEffect(()=>{
-
-        const getCurrentLocation = () => {
-            const watcher = Geolocation.watchPosition(
-                ({coords}) => {
-                    setPos(coords)
-                },
-                (error) => {
-                },
-                { enableHighAccuracy: false, timeout: 15000, maximumAge: 10000 }
-            );
-            return watcher
-        }
-
-        const watcher = getCurrentLocation()
-        return () => Geolocation.clearWatch(watcher);
-
+        Geolocation.getCurrentPosition(
+            ({coords}) => {
+                setUserPos(coords)
+                setErr("")
+            },
+            (error) => setErr(error.message ),
+            { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 },
+          );
     },[])
 
-    return pos.latitude ? (
+    useEffect(()=>{
+        const mergeLot = () => {
+            let concatLot = userPos.latitude +","+ userPos.longitude
+            setSendPos(concatLot);
+            getDirections(concatLot, "fresno+ca");
+       }
+       if(userPos.latitude) mergeLot()
+    }, [userPos])
+
+   const getDirections = async (startLoc, destinationLoc) => {
+         try {
+            const url = `https://maps.googleapis.com/maps/api/directions/json?key=${constants.GOOGLE_API_KEY}&origin=${ startLoc }&destination=${ destinationLoc }`
+            let { data } = await Axios.get(url)
+            let coords = data.routes[0].legs.reduce((carry, curr) => {
+                let newPts = curr.steps.map((step)=>{
+                    let ps = Polyline.decode(step.polyline.points)
+                    let cs = ps.map((p) => ({
+                        latitude: p[0],
+                        longitude: p[1]
+                    }))
+                    return cs;
+                })
+                return [
+                    ...carry,
+                    ...newPts,
+                ];
+            }, []).flat()
+            setCoords(coords)
+            setFoundRoute(1)
+            return coords
+         } catch(error) {
+            console.log('err', error)
+            setFoundRoute(-1)
+            return error
+         }
+    }
+
+    return userPos.latitude ? (
         <View style={styles.container}>
             <MapView
                 ref={mapRef}
@@ -38,11 +83,11 @@ export default function MapScreen(){
                 provider={PROVIDER_GOOGLE}
                 initialCamera={{
                     center: {
-                       latitude: pos.latitude,
-                       longitude: pos.longitude,
+                       latitude: userPos.latitude,
+                       longitude: userPos.longitude,
                     },
                    pitch: 0,
-                   altitude: pos.altitude,
+                   altitude: userPos.altitude,
                    heading: 0,
                    zoom: 20,
                 }}
@@ -57,6 +102,12 @@ export default function MapScreen(){
                 showsIndoors={false}
                 showsIndoorLevelPicker={false}
             >
+            {foundRoute === 1 && coords &&
+                <MapView.Polyline
+                    coordinates={coords}
+                    strokeWidth={2}
+                    strokeColor="red"/>
+            }
             </MapView>
         </View>
     ) : null
