@@ -243,7 +243,6 @@ export default ViewDBs = ({navigation}) => {
           onRequestClose={() => { () => setModal2Visible(false) }}>
           {showPic()}
         </Modal>
-        <Image source={Images.psBackground} style={styles.background} />
         <HeaderBar/>
         <View style={{ flex: 3, alignContent: 'center', justifyContent: 'space-around' }}>
           <FlatList

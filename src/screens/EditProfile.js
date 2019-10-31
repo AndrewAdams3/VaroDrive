@@ -181,7 +181,6 @@ export default EditProfile = ({navigation}) => {
 
     return(
       <View style={styles.container}>
-        <Image source={Images.psBackground} style={styles.background} />
         <ScrollView>
            <View style={styles.main}>
             <Pic />

@@ -15,5 +15,6 @@ export default Images = {
     trighticon: require('./trighticon.png'),
     usernameIcon: require('./usernameIcon.png'),
     VaroLogo: require('./VaroLogo.png'),
-    car: require('./car.png')
+    car: require('./car.png'),
+    rplus: require('./rplus.png')
 }

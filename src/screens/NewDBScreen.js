@@ -312,7 +312,6 @@ export default NewDBScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <Image source={Images.psBackground} style={styles.background} />
         <Modal visible={modalShow} onDismiss={()=>setModalShow(false)}>
             {<MapModal onClose={()=>{setModalShow(false); setHasSet(true)}} setLocation={setLocation}/>}
         </Modal>

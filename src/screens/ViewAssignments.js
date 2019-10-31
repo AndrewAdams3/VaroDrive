@@ -80,7 +80,6 @@ export default ViewAssignments = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <Image source={Images.psBackground} style={styles.background} />
         <View style={{flex: 1, padding: 5}}>
         { task &&
           <View style={{flex: .3, width: "100%", justifyContent: "flex-start", padding: 5, marginBottom: 10}}>      

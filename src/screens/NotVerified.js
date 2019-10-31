@@ -25,7 +25,6 @@ export default NotVerifiedScreen = ({navigation}) => {
 
     return(
       <View style={styles.container}>
-        <Image source={Images.psBackground} style={styles.background} />
         <View style={styles.container}>
           <TouchableOpacity style={{flex: .6}} onPress={isVerified}>
             <Image source={Images.VaroLogo} style={styles.logo} />

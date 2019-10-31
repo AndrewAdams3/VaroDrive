@@ -52,7 +52,6 @@ export default ProfileScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <Image source={Images.psBackground} style={styles.background}/>
         <View style={{flex: Platform.OS === 'ios' ? .8 : .5, width: '100%', alignContent: 'center', justifyContent: 'center'}}>          
           <Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>{(fName === "") ? ("Welcome!") : ("Hi " + capitalize(fName) + "!")}</Text>
         </View>      

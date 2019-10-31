@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   ActivityIndicator,
   StatusBar,
@@ -8,14 +8,13 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
-import { colors } from '../config/styles';
 import constants from '../config/constants'
 import useGlobal from '../State'
 
 const ACCESS_TOKEN = 'access_token';
 
 export default LandingScreen = ({navigation}) => {
-    const [, actions] = useGlobal();
+    const [{ userId }, actions] = useGlobal();
     const [err, setErr] = useState()
     useEffect(()=>{
         _bootstrapAsync()
@@ -103,7 +102,7 @@ export default LandingScreen = ({navigation}) => {
     };
 
     return (
-      <View style={{flex: 1,justifyContent: 'space-around', alignItems: 'center', backgroundColor: colors.PRIMARY_BACKGROUND}}>
+      <View style={{flex: 1,justifyContent: 'space-around', alignItems: 'center', backgroundColor: "white"}}>
         {err && <Text>{err}</Text> }
         <ActivityIndicator/>
         <StatusBar barStyle='dark-content' />

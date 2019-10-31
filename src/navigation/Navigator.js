@@ -12,9 +12,7 @@ import LandingScreen from '../screens/Landing'
 import NotVerifiedScreen from '../screens/NotVerified'
 import UserInfoScreen from '../screens/UserInfo'
 import HomeScreen from '../screens/HomeScreen'
-import TimeInScreen from '../screens/TimeInScreen'
 import NewDBScreen from '../screens/NewDBScreen'
-import TimeSheetScreen from '../screens/TimesheetScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import ViewAssignments from '../screens/ViewAssignments'
 import ViewDBs from '../screens/ViewDBs'
@@ -86,29 +84,6 @@ const SetupStack = createStackNavigator({
 })
 
 const AppNav = createStackNavigator({
-    TimeIn: {
-        screen: (props) =>( 
-            <Screen>
-                <TimeInScreen {...props}/>
-            </Screen>
-        ),
-        path: '/timeIn',
-        navigationOptions: {
-            title: "Time Clock",
-            ...HeaderStyles
-        }
-    },
-    TimeSheet: {
-        screen: (props) =>( 
-            <Screen>
-                <TimeSheetScreen props={props}/>
-            </Screen>
-        ),
-        navigationOptions: {
-            title: "Time Sheet",
-            ...HeaderStyles
-        }
-    },
     Home: {
         screen: (props) =>( 
             <Screen>
@@ -138,10 +113,21 @@ const AppNav = createStackNavigator({
                 <MapScreen {...props}/>
             </Screen>
         ),
-        navigationOptions: {
-            title: "Map",
+        navigationOptions: (props) => ({
             ...HeaderStyles,
-        },
+            headerLeftContainerStyle: {
+                justifyContent: "center",
+                alignItems: "flex-start",
+                height: "100%",
+                width: "15%",
+                padding: 10
+            },
+            headerLeft: (
+                <TouchableOpacity style={{flex: 1, width: "100%", justifyContent: "center", alignItems: "center"}} onPress={() => {props.navigation.navigate("Profile")}}>
+                    <Image style={{height: "100%", width: "100%", tintColor: "white"}} source={Images.profile} resizeMode="contain"/>
+                </TouchableOpacity>
+            )
+        }),
         transitionConfig
     },
     NewDB: {
@@ -200,7 +186,7 @@ const AppNav = createStackNavigator({
         }
     },
   },{ 
-    initialRouteName: 'Home',
+    initialRouteName: 'Map',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: colors.PRIMARY_BACKGROUND,
@@ -224,5 +210,5 @@ export default Navigator = createAppContainer(createSwitchNavigator({
     Setup: SetupStack,
     App: AppNav
 }, {
-    initialRouteName: "Landing",
+    initialRouteName: "App",
 }));

@@ -198,7 +198,6 @@ export default TimeInScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <Image style={styles.background} source={ Images.psBackground } />
         <View style={{ height: '5%' }} />
         <View style={[styles.container, {paddingLeft: 10, paddingRight: 10}]}>
           <View style={[styles.locationView]} >

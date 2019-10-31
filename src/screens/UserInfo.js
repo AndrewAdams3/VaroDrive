@@ -147,7 +147,6 @@ export default UserInfoScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <Image source={Images.psBackground} style={styles.background} />
         <Modal
           animationType='fade'
           transparent={true}

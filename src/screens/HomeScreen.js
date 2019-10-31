@@ -10,13 +10,7 @@ export default HomeScreen = ({navigation}) => {
     }
     return (
         <View style={styles.container}>
-        <Image source={Images.psBackground} style={styles.background}/>
         <View style={[styles.container, {marginTop: 0, paddingHorizontal: 20, paddingVertical: 10}]}>
-            <TouchableOpacity style={styles.buttonsContainer} onPress={() => {handlePress('NewDB')}}>
-                <Image style={styles.image} source={Images.car} />
-                {/* <Text style={styles.buttonText}>Drive By</Text>
-                <Image style={styles.imageR} source={Images.arrowRight} /> */}
-            </TouchableOpacity>
             <TouchableOpacity style={{width: "80%", height: height*.1, backgroundColor: colors.PRIMARY_BACKGROUND, borderRadius: 20, justifyContent: "center", alignItems: "center"}} onPress={()=>navigation.navigate("Map")}>
                 <Text style={{color: "white", fontSize: 16}}>Open Map</Text>
             </TouchableOpacity>

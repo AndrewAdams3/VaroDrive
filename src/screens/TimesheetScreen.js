@@ -157,7 +157,6 @@ export default TimeSheetScreen = ({navigation}) => {
     return(
       <View style={styles.container}>
       <View style={styles.iphoneXTop}/>
-      <Image style={styles.background} source={Images.psBackground} />
         <Modal
           animationType="slide"
           transparent={false}
