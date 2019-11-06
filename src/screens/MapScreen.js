@@ -20,13 +20,10 @@ const initialState = {
     coords: [],
     foundRoute: 0,
     userPos: {},
-    show: true
 }
 
 function reducer(state, action) {
     switch(action.type){
-        case 'show':
-            return {...state, show: action.value};
         case 'pos':
             return {...state, pos: action.value};
         case 'sendPos':
@@ -48,7 +45,7 @@ function reducer(state, action) {
 
 export default function MapScreen({navigation}){
 
-    const [{ pos, show, sendPos, err, coords, foundRoute, userPos }, dispatch] = useReducer(reducer, initialState)
+    const [{ pos, sendPos, err, coords, foundRoute, userPos }, dispatch] = useReducer(reducer, initialState)
     const [showMap, setShowMap] = useState(false)
     const [{onClock}, actions] = useGlobal()
     const mapRef = useRef()
@@ -104,7 +101,6 @@ export default function MapScreen({navigation}){
     }
 
     const noShift = React.useCallback(() => {
-        dispatch({type:"show", value: false});  
         actions.setOnClock(false)
         const resetAction = StackActions.reset({
             index: 0,
@@ -115,7 +111,6 @@ export default function MapScreen({navigation}){
 
     const yesShift = React.useCallback(() => {
         console.log("setting clock")
-        dispatch({type: "show", value:false})
         setShowMap(true)
         actions.setOnClock(true)
         console.log("onclock now")
@@ -123,7 +118,7 @@ export default function MapScreen({navigation}){
 
     return userPos.latitude ? (
         <View style={styles.container}>
-            <Modal visible={show} onRequestClose={()=>dispatch({type: "show", value: false})} transparent={true} presentationStyle="overFullScreen">
+            <Modal visible={!onClock} transparent={true} presentationStyle="overFullScreen">
                 <View style={{flex: 1, width: "100%", justifyContent: "center", alignItems: "center"}}>
                     <View style={{height: 200, width: "80%", padding: 20, backgroundColor: "white", justifyContent: "center", alignItems: "center", borderRadius: 20, borderColor: colors.PRIMARY_BACKGROUND, borderWidth:2, shadowColor: colors.SECONDARY_BACKGROUND, shadowRadius:2, shadowOpacity:.8, shadowOffset: {width: 2, height: 2}}}>
                         <View style={{flex: .5, justifyContent: "space-between", width: "100%"}}>
@@ -145,7 +140,7 @@ export default function MapScreen({navigation}){
                     </View>
                 </View>
             </Modal>
-            {showMap &&
+            {onClock &&
                 <MapView
                     ref={mapRef}
                     style={styles.map}

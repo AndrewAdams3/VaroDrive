@@ -210,5 +210,5 @@ export default Navigator = createAppContainer(createSwitchNavigator({
     Setup: SetupStack,
     App: AppNav
 }, {
-    initialRouteName: "App",
+    initialRouteName: "Landing",
 }));

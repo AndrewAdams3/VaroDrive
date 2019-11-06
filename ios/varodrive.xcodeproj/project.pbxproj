@@ -19,6 +19,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* varodriveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* varodriveTests.m */; };
 		649E72F46F24A0F991633276 /* libPods-varodrive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F0CEA09F25E84AA163787D /* libPods-varodrive.a */; };
 		8091B37190291101AB7C90C6 /* libPods-varodrive-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 462DF48D105FB17AA393DE09 /* libPods-varodrive-tvOSTests.a */; };
+		91A4D17B236CBA77001BFACD /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A4D17A236CBA77001BFACD /* RNBackgroundFetch+AppDelegate.m */; };
 		A30A856180990DDB495C4C9D /* libPods-varodriveTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6DA3A284AD7A72B95459F3B /* libPods-varodriveTests.a */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		462DF48D105FB17AA393DE09 /* libPods-varodrive-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-varodrive-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		69037D7A0B46D3BA0C4ECCF6 /* Pods-varodrive-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-varodrive-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-varodrive-tvOSTests/Pods-varodrive-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		84F0CEA09F25E84AA163787D /* libPods-varodrive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-varodrive.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91A4D17A236CBA77001BFACD /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
 		9466A19A24D48E133E6310AD /* Pods-varodrive-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-varodrive-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-varodrive-tvOS/Pods-varodrive-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		9A76E6172C0EF35C8262DEAE /* Pods-varodriveTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-varodriveTests.debug.xcconfig"; path = "Target Support Files/Pods-varodriveTests/Pods-varodriveTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A6DA3A284AD7A72B95459F3B /* libPods-varodriveTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-varodriveTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +127,7 @@
 		13B07FAE1A68108700A75B9A /* varodrive */ = {
 			isa = PBXGroup;
 			children = (
+				91A4D17A236CBA77001BFACD /* RNBackgroundFetch+AppDelegate.m */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -550,6 +553,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91A4D17B236CBA77001BFACD /* RNBackgroundFetch+AppDelegate.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);

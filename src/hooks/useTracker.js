@@ -1,80 +1,73 @@
-import React, { useEffect } from 'react';
-import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
-import constants from '../config/constants'
+import React, { useEffect } from 'react'
+import BackgroundGeolocation from "react-native-background-geolocation";
 import useGlobal from '../State'
 
-const useTracker = () => {
-  const [{userId, onClock},] = useGlobal()
+export default function useTracker(){
+  const { userId, onClock } = useGlobal()[0];
 
-    useEffect(()=>{
-      const date = new Date();
-      const url_date = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`
-        BackgroundGeolocation.configure({
-            desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
-            stationaryRadius: 25,
-            distanceFilter: 25,
-            debug:false,
-            notificationTitle: 'Tracking Location',
-            notificationText: 'Enabled',
-            startOnBoot: false,
-            stopOnTerminate: false,
-            interval: 10000,
-            fastestInterval: 5000,
-            activitiesInterval: 10000,
-            pauseLocationUpdates: false,
-            activityType: "AutomotiveNavigation",
-            saveBatteryOnBackground: true,
-            url: `${constants.ip}:3210/location/tracking/${userId}/${url_date}`,
-            httpHeaders: {
-              'X-FOO': 'bar'
-            },
-            postTemplate: {
-              lat: '@latitude',
-              lon: '@longitude',
-              speed: '@speed',
-            }
-          });
-       
-          BackgroundGeolocation.on('location', (location) => {
-              console.log("loc", location)
-            // handle your locations here
-            // to perform long running operation on iOS
-            // you need to create background task
-            BackgroundGeolocation.startTask(taskKey => {
-              // execute long running task
-              // eg. ajax post location
-              // IMPORTANT: task has to be ended by endTask
-              BackgroundGeolocation.endTask(taskKey);
-            });
-          });
-       
-          BackgroundGeolocation.on('start', () => {
-            console.log('[INFO] BackgroundGeolocation service has been started');
-          });
-       
-          BackgroundGeolocation.on('stop', () => {
-            console.log('[INFO] BackgroundGeolocation service has been stopped');
-          });
-       
-          BackgroundGeolocation.on('background', () => {
-            console.log('[INFO] App is in background');
-          });
-       
-          BackgroundGeolocation.on('foreground', () => {
-            console.log('[INFO] App is in foreground');
-          });
-//          return () => BackgroundGeolocation.removeAllListeners()
-    },[])  
+  useEffect(()=>{
+    // This handler fires whenever bgGeo receives a location update.
+    BackgroundGeolocation.onLocation(onLocation, onError);
 
-    useEffect(()=>{
-      console.log("checking to start")
-      if(userId.length && onClock){
-        console.log("starting background")
-        BackgroundGeolocation.start();
-      } else {
-        BackgroundGeolocation.stop();
-      }
-    },[userId, onClock])
+    // This handler fires when movement states changes (stationary->moving; moving->stationary)
+    BackgroundGeolocation.onMotionChange(onMotionChange);
+
+    // This event fires when a change in motion activity is detected
+    BackgroundGeolocation.onActivityChange(onActivityChange);
+
+    // This event fires when the user toggles location-services authorization
+    BackgroundGeolocation.onProviderChange(onProviderChange);
+
+    BackgroundGeolocation.ready({
+      // Geolocation Config
+      desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+      distanceFilter: 30,
+      // Activity Recognition
+      stopTimeout: 1,
+      // Application config
+      //debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
+      logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+      stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
+      //startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
+      // HTTP / SQLite config
+      url: 'http://localhost:3210/data/tracks/',
+      batchSync: false,       // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
+      autoSync: true,         // <-- [Default: true] Set true to sync each location to server as it arrives.
+    });
+    return BackgroundGeolocation.removeListeners;
+  }, [])
+
+  useEffect(()=>{
+    if(userId.length && onClock){
+      console.log("testing", userId)
+      BackgroundGeolocation.setConfig({
+        params: {
+          userId: userId
+        }
+      }).then(()=>{
+        BackgroundGeolocation.start(function() {
+          console.log("- Start success");
+        });
+      })
+    } else {
+      BackgroundGeolocation.stop()
+    }
+  },[userId, onClock])
+
+  const onLocation = React.useCallback((location) => {
+    console.log('[location] -', location);
+  })
+  const onError = (error) => {
+    console.warn('[location] ERROR -', error);
+  }
+  const onActivityChange = (event) => {
+    console.log('[activitychange] -', event);  // eg: 'on_foot', 'still', 'in_vehicle'
+  }
+  const onProviderChange = (provider) => {
+    console.log('[providerchange] -', provider.enabled, provider.status);
+  }
+  const onMotionChange = (event) => {
+    console.log('[motionchange] -', event.isMoving, event.location);
+  }
+  
 }
- 
-export default useTracker;
