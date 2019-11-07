@@ -12,7 +12,7 @@ import Polyline from '@mapbox/polyline';
 import constants from '../../config/constants'
 import colors from '../../config/styles/colors'
 import Images from '../../config/images';
-import {useDbContext, DbProvider} from './context/context'
+import {useDbContext} from './context/context'
 
 const initialState = {
     pos: {},
@@ -54,6 +54,7 @@ export default function MapScreen({navigation}){
 
     useEffect(()=>{
         console.log("testing")
+        dbDispatch({type: "refresh"})
         Geolocation.getCurrentPosition(
             ({coords}) => {
                 dispatch({type: "userPos", value: {coords: coords, err: ""}})
@@ -109,6 +110,7 @@ export default function MapScreen({navigation}){
             index: 0,
             actions: [NavigationActions.navigate({ routeName: 'Home' })],
         });
+        dbDispatch({type: "refresh"})
         navigation.dispatch(resetAction);
     })
 
@@ -209,7 +211,7 @@ export default function MapScreen({navigation}){
                 }
                 </MapView>
             }
-            <TouchableOpacity onPress={()=>actions.setOnClock(false)} style={{position:"absolute", top: 20, right: Platform.OS === "android" ? 20 : null, left: Platform.OS === "ios" ? 20 : null, height: 50, width: 100, borderRadius: 25, backgroundColor: colors.PRIMARY_BACKGROUND, justifyContent: "center", alignItems: "center" }}>
+            <TouchableOpacity onPress={()=>{ actions.setOnClock(false); dbDispatch({type: "refresh"});}} style={{position:"absolute", top: 20, right: Platform.OS === "android" ? 20 : null, left: Platform.OS === "ios" ? 20 : null, height: 50, width: 100, borderRadius: 25, backgroundColor: colors.PRIMARY_BACKGROUND, justifyContent: "center", alignItems: "center" }}>
                 <Text style={{color: "white"}}>End Shift</Text>
             </TouchableOpacity>
             { !!dbState.coords.length &&

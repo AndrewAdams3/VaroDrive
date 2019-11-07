@@ -25,6 +25,7 @@ const initialState = {
 
 function dbReducer(state, action) {
     switch (action.type) {
+      case 'refresh': return initialState;
       case 'coords':return { ...state, coords: action.value}
       case 'city': return {...state, city: action.value};
       case 'state': return {...state, State: action.value};

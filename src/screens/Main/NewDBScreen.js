@@ -178,9 +178,9 @@ export default NewDBScreen = ({navigation}) => {
             },
             body: state.post,
         };
-        dispatch({type: "sending", value: true})
-        console.log("sending ", state)
         if(state.State && state.city && state.street && state.hasPic){
+            dispatch({type: "sending", value: true})
+            console.log("sending ", state)
             await axios.post(url, post, config ).then( async ({data}) => {
                 console.log("first post done", data)
             if (data.response == 0){
@@ -206,9 +206,11 @@ export default NewDBScreen = ({navigation}) => {
                 if(data.response == 0){
                     if(data.already){
                         showAlreadyAlert();
-                    } else navigation.navigate('Map');
-                }
-                else{
+                    } else {
+                        navigation.navigate('Map');
+                        dispatch({type: "sending", value: false})
+                    }
+                } else{
                     AlertPopup("Error Submitting", "Please ensure all fields are filled out and Location Services are turned on");
                 }}).catch((err) => { })
             } else{
@@ -218,7 +220,6 @@ export default NewDBScreen = ({navigation}) => {
                 AlertPopup("Error Submitting", "Please ensure all fields are filled out and Location Services are turned on");
             })
         }
-        dispatch({type: "sending", value: false})
     }
 
     const MainView = () => {
