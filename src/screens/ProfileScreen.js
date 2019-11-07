@@ -26,11 +26,11 @@ export default ProfileScreen = ({navigation}) => {
         if(profilePic){
             path = profilePic.split('\\')
             path = path.join('/')
-            setprofilepic(constants.ip + ':3210/' + path)
+            setprofilepic(constants.ip + '/' + path)
           }
         else{
           path = 'file/uploads/profilePics/default.png'
-          setprofilepic(constants.ip + ':3210/' + path)
+          setprofilepic(constants.ip + '/' + path)
         }
     },[])
     
@@ -38,7 +38,7 @@ export default ProfileScreen = ({navigation}) => {
     const removeToken = async () => {
         try {
             AsyncStorage.setItem(ACCESS_TOKEN, "");
-            var url = constants.ip + ':3210/data/users/logout';
+            var url = constants.ip + '/data/users/logout';
             Axios.put(url, {id: userId, value: ""} )
             actions.logout()
             navigation.navigate("Auth")
@@ -59,10 +59,10 @@ export default ProfileScreen = ({navigation}) => {
           <View style={{ flex: 2, alignContent: 'flex-start', justifyContent: 'flex-start' }}>
             <FastImage
               onError={() => {
-                  setprofilepic(constants.ip + ':3210/' + "file/uploads/profilePics/default.png")
+                  setprofilepic(constants.ip + '/' + "file/uploads/profilePics/default.png")
               }}
               style={styles.profilePic}
-              source={{ uri: constants.ip + ':3210/' + profilePic }}
+              source={{ uri: constants.ip + '/' + profilePic }}
               resizeMode="cover"
             />
           </View>

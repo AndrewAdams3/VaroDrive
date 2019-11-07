@@ -12,12 +12,12 @@ import LandingScreen from '../screens/Landing'
 import NotVerifiedScreen from '../screens/NotVerified'
 import UserInfoScreen from '../screens/UserInfo'
 import HomeScreen from '../screens/HomeScreen'
-import NewDBScreen from '../screens/NewDBScreen'
+import NewDBScreen from '../screens/Main/NewDBScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import ViewAssignments from '../screens/ViewAssignments'
 import ViewDBs from '../screens/ViewDBs'
 import EditProfile from '../screens/EditProfile'
-import MapScreen from '../screens/MapScreen'
+import MapScreen from '../screens/Main/MapScreen'
 
 
 const HeaderStyles = {
@@ -59,15 +59,33 @@ const transitionConfig = (sceneProps) => {
   }
 
 const AuthStack = createStackNavigator({
-    Login: LoginScreen,
-    SignUp: SignUpScreen
+    Login: {
+        screen: (props) => (
+            <Screen bg>
+                <LoginScreen {...props}/>
+            </Screen>
+        )
+    },
+    SignUp: {
+        screen: (props) => (
+            <Screen bg>
+                <SignUpScreen {...props}/>
+            </Screen>
+        )
+    }
 }, {
     initialRouteName: "Login",
     headerMode: "none"
 })
 
 const LandingStack = createStackNavigator({
-    Landing: LandingScreen
+    Landing: {
+        screen: (props) => (
+            <Screen bg>
+                <LandingScreen {...props}/>
+            </Screen>
+        )
+    }
 },{
     initialRouteName: 'Landing',
     headerMode: 'none',
@@ -86,7 +104,7 @@ const SetupStack = createStackNavigator({
 const AppNav = createStackNavigator({
     Home: {
         screen: (props) =>( 
-            <Screen>
+            <Screen bg>
                 <HomeScreen {...props}/>
             </Screen>
         ),
@@ -132,7 +150,7 @@ const AppNav = createStackNavigator({
     },
     NewDB: {
         screen: (props) =>( 
-            <Screen>
+            <Screen bg>
                 <NewDBScreen {...props}/>
             </Screen>
         ),
@@ -143,7 +161,7 @@ const AppNav = createStackNavigator({
     },
     Profile: {
         screen: (props) =>( 
-            <Screen>
+            <Screen bg>
                 <ProfileScreen {...props}/>
             </Screen>
         ),
@@ -154,7 +172,7 @@ const AppNav = createStackNavigator({
     },
     Edit: {
         screen: (props) =>( 
-            <Screen>
+            <Screen bg>
                 <EditProfile {...props}/>
             </Screen>
         ),
@@ -165,7 +183,7 @@ const AppNav = createStackNavigator({
     },
     ViewAssignments: {
         screen: (props) =>( 
-            <Screen>
+            <Screen bg>
                 <ViewAssignments {...props}/>
             </Screen>
         ),
@@ -176,7 +194,7 @@ const AppNav = createStackNavigator({
     },
     ViewDBs: {
         screen: (props) =>( 
-            <Screen>
+            <Screen bg>
                 <ViewDBs {...props}/>
             </Screen>
         ),

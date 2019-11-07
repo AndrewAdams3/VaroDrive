@@ -46,7 +46,7 @@ export default LandingScreen = ({navigation}) => {
     }
 
     const getUser = async (token, returner) => {
-      var url = constants.ip + ':3210/data/users/id';
+      var url = constants.ip + '/data/users/id';
       var res = {
         found: false,
         complete: false,

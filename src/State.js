@@ -58,7 +58,7 @@ const actions = {
     store.setState({...store, location: loc});
   },
   setOnClock: (store, val) => {
-    Axios.put(`${constants.ip}:3210/data/users/onclock`, {
+    Axios.put(`${constants.ip}/data/users/onclock`, {
       id: store.state.userId,
       value: val
     }).catch((err)=>{

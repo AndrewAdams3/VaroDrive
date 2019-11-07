@@ -5,13 +5,14 @@ import Geolocation from 'react-native-geolocation-service'
 import { StackActions, NavigationActions } from 'react-navigation';
 
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps'
-import useGlobal from '../State'
+import useGlobal from '../../State'
 
 import Axios from 'axios';
 import Polyline from '@mapbox/polyline';
-import constants from '../config/constants'
-import colors from '../config/styles/colors'
-import images from '../config/images';
+import constants from '../../config/constants'
+import colors from '../../config/styles/colors'
+import Images from '../../config/images';
+import {useDbContext, DbProvider} from './context/context'
 
 const initialState = {
     pos: {},
@@ -46,6 +47,7 @@ function reducer(state, action) {
 export default function MapScreen({navigation}){
 
     const [{ pos, sendPos, err, coords, foundRoute, userPos }, dispatch] = useReducer(reducer, initialState)
+    const [dbState, dbDispatch] = useDbContext();
     const [showMap, setShowMap] = useState(false)
     const [{onClock}, actions] = useGlobal()
     const mapRef = useRef()
@@ -61,18 +63,19 @@ export default function MapScreen({navigation}){
           );
     },[])
 
-    useEffect(()=>{
-        const mergeLot = () => {
-            let concatLot = userPos.latitude +","+ userPos.longitude
-            dispatch({type: "sendPos", value: concatLot})
-            getDirections(concatLot, "fresno+ca");
-       }
-       if(userPos.latitude) mergeLot()
-    }, [userPos])
+//     useEffect(()=>{
+//         console.log("pos", userPos)
+//         const mergeLot = () => {
+//             let concatLot = userPos.latitude +","+ userPos.longitude
+//             dispatch({type: "sendPos", value: concatLot})
+//             getDirections(concatLot, "fresno+ca");
+//        }
+// //       if(userPos.latitude) mergeLot()
+//     }, [userPos])
 
-    useEffect(()=>{
-        console.log("onclock", onClock)
-    },[onClock])
+    // useEffect(()=>{
+    //     console.log("onclock", onClock)
+    // },[onClock])
 
    const getDirections = async (startLoc, destinationLoc) => {
          try {
@@ -116,6 +119,29 @@ export default function MapScreen({navigation}){
         console.log("onclock now")
     })
 
+    const onLongPress = React.useCallback((e) => {
+        const setLocationByCoords = (lat, lon) => {
+            Axios.get(constants.ip + '/location/' + lat + "/" + lon)
+            .then( ({data}) => {
+                console.log("da", data)
+                dbDispatch({type: "place", value: {
+                    county: data.county,
+                    State: data.state,
+                    city: data.city,
+                    postal: data.postal,
+                    street: data.street,
+                    address: data.address,
+                }})
+            })
+        }
+
+        if(!!e.nativeEvent.coordinate){
+            console.log("getting new place", dbState.coords)
+            setLocationByCoords(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
+        }
+        dbDispatch({type: "coords", value: [e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude]})
+    },[])
+
     return userPos.latitude ? (
         <View style={styles.container}>
             <Modal visible={!onClock} transparent={true} presentationStyle="overFullScreen">
@@ -144,7 +170,7 @@ export default function MapScreen({navigation}){
                 <MapView
                     ref={mapRef}
                     style={styles.map}
-    //                onLongPress={longPress}
+                    onLongPress={onLongPress}
                     provider={PROVIDER_GOOGLE}
                     initialCamera={{
                         center: {
@@ -157,6 +183,7 @@ export default function MapScreen({navigation}){
                     zoom: 20,
                     }}
                     pitchEnabled={false}
+                    showsBuildings={true}
                     toolbarEnabled={false}
                     showsUserLocation={true}
                     followsUserLocation={true}
@@ -166,6 +193,14 @@ export default function MapScreen({navigation}){
                     showsIndoors={false}
                     showsIndoorLevelPicker={false}
                 >
+                 { !!dbState.coords.length &&
+                    <Marker coordinate={{latitude: dbState.coords[0], longitude: dbState.coords[1]}}>
+                        <View style={{width: 100, heigth: 100, justifyContent: "center", alignItems: "center"}}>
+                            {<Text style={{textAlign: "center", width: "100%"}}>{dbState.address}</Text> }
+                            <Image source={Platform.OS === "ios" ? Images.markerI : Images.markerA} style={{height: 50, width: 50}} resizeMode="contain" key={"image-marker-key"}/>
+                        </View>
+                    </Marker>
+                }
                 {foundRoute === 1 && coords &&
                     <MapView.Polyline
                         coordinates={coords}
@@ -177,9 +212,12 @@ export default function MapScreen({navigation}){
             <TouchableOpacity onPress={()=>actions.setOnClock(false)} style={{position:"absolute", top: 20, right: Platform.OS === "android" ? 20 : null, left: Platform.OS === "ios" ? 20 : null, height: 50, width: 100, borderRadius: 25, backgroundColor: colors.PRIMARY_BACKGROUND, justifyContent: "center", alignItems: "center" }}>
                 <Text style={{color: "white"}}>End Shift</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{position: "absolute", bottom: 50, left: "50%", marginLeft: -40, width: 80, height: 80, borderRadius: 40, backgroundColor: colors.PRIMARY_BACKGROUND, justifyContent: "center", alignItems: "center"}}>
-                <Image source={images.plus} style={{height: "50%", width: "50%", tintColor: "white"}} resizeMode={"contain"}/>
-            </TouchableOpacity>
+            { !!dbState.coords.length &&
+                <TouchableOpacity onPress={()=>navigation.navigate("NewDB")} style={{position: "absolute", bottom: 50, left: "50%", marginLeft: -80, width: 160, height: 80, borderRadius: 10, backgroundColor: colors.PRIMARY_BACKGROUND, justifyContent: "center", alignItems: "center"}}>
+                    {/* <Image source={Images.plus} style={{height: "50%", width: "50%", tintColor: "white"}} resizeMode={"contain"}/> */}
+                    <Text style={{color: "white"}}>Confirm?</Text>
+                </TouchableOpacity>
+            }
         </View>
     ) : null
 }

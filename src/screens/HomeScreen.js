@@ -25,13 +25,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         width: '100%',
-    },
-    background: {
-      position: 'absolute',
-      top: 0, bottom: 0, left: 0, right: 0,
-      width: width,
-      height: height,
-      opacity: 0.9,
+        backgroundColor: "transparent"
     },
     TextHeader: {
         fontSize: 24,

@@ -41,7 +41,7 @@ export default TimeInScreen = ({navigation}) => {
         );
     }
     const geoSuccess = async ({coords}) => {
-        Axios.get('https://' + constants.ip + ':3210/location/' + coords.latitude + "/" + coords.longitude).then(({data}) => {
+        Axios.get('https://' + constants.ip + '/location/' + coords.latitude + "/" + coords.longitude).then(({data}) => {
               actions.setLocation(data.address);
               refresh(!fresh)
           }).catch((err)=>console.log("failed to get loc", err))
@@ -73,7 +73,7 @@ export default TimeInScreen = ({navigation}) => {
     }
 
     const setUserOnClock = (on) => {
-        var url = 'https://' + constants.ip + ':3210/data/users/onclock';
+        var url = 'https://' + constants.ip + '/data/users/onclock';
         Axios.put(url, {
             id: userId,
             value: on
@@ -112,7 +112,7 @@ export default TimeInScreen = ({navigation}) => {
     }
 
     const createNewTimeClock = async (time) => {
-        var url = 'https://' + constants.ip + ':3210/data/times/newTime';
+        var url = 'https://' + constants.ip + '/data/times/newTime';
         await Axios.post(url, {
             id: userId,
             sLocation: location,
@@ -123,7 +123,7 @@ export default TimeInScreen = ({navigation}) => {
     }
 
     const finishTimeClock = async () => {
-        var url = 'https://' + constants.ip + ':3210/data/times/endTime';
+        var url = 'https://' + constants.ip + '/data/times/endTime';
         getCurrentLocation().then(
             Axios.put(url, {
                 eLocation: location,
@@ -181,7 +181,7 @@ export default TimeInScreen = ({navigation}) => {
     }
 
     const getOnTime = async () => {
-        var url = 'https://' + constants.ip + ':3210/data/times';
+        var url = 'https://' + constants.ip + '/data/times';
         await Axios.post(url, {
             id: userId
         }).then(({data}) => {

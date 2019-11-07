@@ -9,6 +9,7 @@ import {
 import FastImage from 'react-native-fast-image'
 import ImagePicker from 'react-native-image-picker'
 import axios from 'axios';
+import constants from '../config/constants'
 
 import colors from '../config/styles/colors'
 import ImageButton from '../components/ImageButton.js';
@@ -48,7 +49,7 @@ export default EditProfile = ({navigation}) => {
     const [_state, dispatch] = useReducer(reducer, initialState);
 
     const submitChanges = () => {
-        var url = constants.ip + ':3210/data/users/update';
+        var url = constants.ip + '/data/users/update';
         var fName = _state["_fName"] === undefined ? fName : _state["_fName"]
         var lName = _state["_lName"] === undefined ? lName : _state["_lName"]
         var email = _state["_email"] === undefined ? email : _state["_email"]
@@ -103,7 +104,7 @@ export default EditProfile = ({navigation}) => {
     }
 
     const submitPic = async () => {
-        var url = constants.ip + ':3210/data/users/profilePic';
+        var url = constants.ip + '/data/users/profilePic';
 
         const config = {
             method: 'POST',
@@ -115,7 +116,7 @@ export default EditProfile = ({navigation}) => {
         console.log("config", config)
         await axios.post(url, _state._post, config).then(async ({data}) => {
         if (data.response == 0) {
-            url = constants.ip + ':3210/data/users/profilePic';
+            url = constants.ip + '/data/users/profilePic';
             await axios.put(url, {
                 value: data.path,
                 id: userId
@@ -138,11 +139,11 @@ export default EditProfile = ({navigation}) => {
         return(
         <ImageButton onPress={openCamera} style={{ flex: 1, margin: 15, justifyContent: 'space-around', alignItems: 'center', alignSelf: 'center' }}>
             <FastImage
-            onError={() => {
-                dispatch({type: "_picture", value: "file/uploads/profilePics/default.png"})
-            }}
+            // onError={() => {
+            //     dispatch({type: "_picture", value: "file/uploads/profilePics/default.png"})
+            // }}
             style={styles.profilePic}
-            source={{uri:(constants.ip + ':3210/' + _state._profilePic)}}
+            source={{uri:(constants.ip + '/' + _state._profilePic)}}
             resizeMode="cover"
             />
         </ImageButton>

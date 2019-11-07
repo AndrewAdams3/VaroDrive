@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import BackgroundGeolocation from "react-native-background-geolocation";
 import useGlobal from '../State'
+import constants from '../config/constants';
 
 export default function useTracker(){
   const { userId, onClock } = useGlobal()[0];
@@ -18,6 +19,9 @@ export default function useTracker(){
     // This event fires when the user toggles location-services authorization
     BackgroundGeolocation.onProviderChange(onProviderChange);
 
+    BackgroundGeolocation.requestPermission((status)=>{
+      console.log("status", status);
+    })
     BackgroundGeolocation.ready({
       // Geolocation Config
       desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
@@ -27,10 +31,11 @@ export default function useTracker(){
       // Application config
       //debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
       logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+      activityType:BackgroundGeolocation.ACTIVITY_TYPE_AUTOMOTIVE_NAVIGATION,
       stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
       //startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
       // HTTP / SQLite config
-      url: 'http://localhost:3210/data/tracks/',
+      url: constants.ip + '/data/tracks/',
       batchSync: false,       // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
       autoSync: true,         // <-- [Default: true] Set true to sync each location to server as it arrives.
     });

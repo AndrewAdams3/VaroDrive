@@ -1,65 +1,22 @@
-import React, { useState, useReducer } from 'react';
-import { View, Text, Alert, ScrollView, Modal, ActivityIndicator, Platform, TouchableOpacity, Dimensions, StyleSheet, Image, TextInput } from 'react-native';
-import { colors } from '../config/styles'
+import React, { useEffect } from 'react';
+import { View, Text, Alert, ScrollView, ActivityIndicator, Platform, TouchableOpacity, Dimensions, StyleSheet, Image, TextInput } from 'react-native';
+import { colors } from '../../config/styles'
 import ImagePicker from 'react-native-image-picker'
 
 import axios from 'axios'
-import constants from '../config/constants'
-import AlertPopup from '../components/AlertPopup.js'
-import useGlobal from '../State'
-import MapModal from '../components/MapModal'
-import Images from '../config/images/index'
+import constants from '../../config/constants'
+import AlertPopup from '../../components/AlertPopup.js'
+import useGlobal from '../../State'
+import Images from '../../config/images/index'
+import { useDbContext } from './context/context';
 
 const { height, width } = Dimensions.get("screen");
 
-const initialState = {     
-    city: "",
-    State: "",
-    county: "",
-    postal: "",
-    type: "",
-    vacant: false,
-    burned: false,
-    boarded: false,
-    refresh: false,
-    avatar: "",
-    hasPic : false,
-    post: {},
-    sending: false,
-    address: ""
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'city': return {...state, city: action.value};
-    case 'state': return {...state, State: action.value};
-    case 'county': return {...state, county: action.value};
-    case 'postal': return {...state, postal: action.value};
-    case 'sending': return {...state, sending: action.value};
-    case 'place':
-        const {county, State, city, postal, street, address} = action.value;
-        return {
-            ...state, 
-            city: city,
-            State: State,
-            county: county,
-            postal: postal,
-            street: street,
-            address: address
-        };
-    case 'avatar': return {...state, avatar: action.value };
-    case 'hasPic': return {...state, hasPic: action.value };
-    case 'post': return {...state, post: action.value };
-    case 'vacant': return {...state, vacant: action.value };
-    case 'burned': return {...state, burned: action.value };
-    case 'boarded': return {...state, boarded: action.value };
-    case 'type': return {...state, type: action.value };
-    case 'street': return { ...state, street: action.value };
-    default: throw new Error("Error creating dispatch");
-  }
-}
-
 export default NewDBScreen = ({navigation}) => {
+
+    useEffect(()=>{
+        console.log("testing render dbscreen")
+    })
     const prompts = [
         "House Address",
         "Date Property Was Found",
@@ -76,18 +33,14 @@ export default NewDBScreen = ({navigation}) => {
         "burned",
         "boarded" 
     ]
-    const [state, dispatch] = useReducer(reducer, initialState)
+    const [state, dispatch] = useDbContext()
     const [{userId}, globalActions] = useGlobal();
-    const [lat, setLat] = useState()
-    const [lon, setLon] = useState()
-    const [hasSet, setHasSet] = useState(false)
-    const [modalShow, setModalShow] = useState(false)
 
-    const formItem = (num) => {
+    const formItem = React.useMemo(() => (num) => {
         var placeholder
         switch(num){
             case 0:
-                placeholder = state.hasPic ? state.street : "Choose address after image is taken"
+                placeholder = state.street || state.address
                 break;
             case 1:
                 placeholder = new Date().toDateString() + " " + new Date().toTimeString()
@@ -113,7 +66,7 @@ export default NewDBScreen = ({navigation}) => {
                 </View>
             </View>
         )
-    }
+    }, [state.address, state.street])
 
     const boolItem = (num) => {
         return(
@@ -187,10 +140,13 @@ export default NewDBScreen = ({navigation}) => {
                 });
 
                 if(source != ""){
-                    dispatch({type: "avatar", value: source})
-                    dispatch({type: "hasPic", value: true})
-                    dispatch({type: "post", value: data})
-                    setModalShow(true);
+                    console.log("source got")
+                    dispatch({type: "finishPic", value: {
+                        source: source,
+                        hasPic: true,
+                        post: data
+                    }})
+                    console.log("source set")
                 }  
             }
         });
@@ -213,7 +169,7 @@ export default NewDBScreen = ({navigation}) => {
 
     }
     const handleSubmit = async () => {
-        var url = constants.ip + ':3210/data/drivebys/upload';
+        var url = constants.ip + '/data/drivebys/upload';
         const post = state.post
         const config = {
             method: 'POST',
@@ -223,10 +179,12 @@ export default NewDBScreen = ({navigation}) => {
             body: state.post,
         };
         dispatch({type: "sending", value: true})
-        if(state.State && state.city && state.street){
+        console.log("sending ", state)
+        if(state.State && state.city && state.street && state.hasPic){
             await axios.post(url, post, config ).then( async ({data}) => {
+                console.log("first post done", data)
             if (data.response == 0){
-                url = constants.ip + ':3210/data/drivebys/newDB';
+                url = constants.ip + '/data/drivebys/newDB';
                 await axios.post(url,{
                     path: data.path,
                     id: userId,
@@ -238,8 +196,8 @@ export default NewDBScreen = ({navigation}) => {
                     vacant: state.vacant,
                     burned: state.burned,
                     boarded: state.boarded,
-                    lat: lat,
-                    lon: lon,
+                    lat: state.coords[0],
+                    lon: state.coords[1],
                     city: state.city,
                     state: state.State,
                     county: state.county,
@@ -248,7 +206,7 @@ export default NewDBScreen = ({navigation}) => {
                 if(data.response == 0){
                     if(data.already){
                         showAlreadyAlert();
-                    } else navigation.navigate('Home');
+                    } else navigation.navigate('Map');
                 }
                 else{
                     AlertPopup("Error Submitting", "Please ensure all fields are filled out and Location Services are turned on");
@@ -256,6 +214,7 @@ export default NewDBScreen = ({navigation}) => {
             } else{
                 AlertPopup("Error Submitting", "Please ensure all fields are filled out and Location Services are turned on");
             } }).catch((err) => {
+                console.log("err", err)
                 AlertPopup("Error Submitting", "Please ensure all fields are filled out and Location Services are turned on");
             })
         }
@@ -274,13 +233,6 @@ export default NewDBScreen = ({navigation}) => {
                     <Image source={state.hasPic ? state.avatar : Images.plus} resizeMode="contain" style={{alignSelf: 'center', height: 70, width: 70}} key={"image-newdb-key"}/>
                     <Text style={{ marginTop: 20, alignSelf: 'center', fontSize: 20, color: 'white', height: 25 }}>{state.avatar ? "Change Image" : "Add Image"}</Text>
                 </TouchableOpacity>
-                { hasSet &&
-                    <View style={{width: "100%", height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <TouchableOpacity onPress={()=>setModalShow(true)} style={{width: "60%", flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: colors.PRIMARY_BACKGROUND, borderColor: colors.SECONDARY_BACKGROUND, borderWidth: 2, borderRadius: 5}}>
-                            <Text style={{width: "100%", color: "white", textAlign: "center"}}>Open Map</Text>
-                        </TouchableOpacity>
-                    </View>
-                }
                 {formItem(0)}
                 {formItem(1)}
                 {pType(2)}
@@ -297,24 +249,9 @@ export default NewDBScreen = ({navigation}) => {
         )
     }
 
-    const setLocation = (data) => {
-        dispatch({type: "place", value: {
-            county: data.county,
-            State: data.state,
-            city: data.city,
-            postal: data.postal,
-            street: data.street,
-            address: data.address
-        }})
-        setLat(data.lat)
-        setLon(data.lon)
-    }
 
     return (
       <View style={styles.container}>
-        <Modal visible={modalShow} onDismiss={()=>setModalShow(false)}>
-            {<MapModal onClose={()=>{setModalShow(false); setHasSet(true)}} setLocation={setLocation}/>}
-        </Modal>
         {MainView()}
       </View>
     );

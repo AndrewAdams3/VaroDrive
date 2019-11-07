@@ -58,7 +58,7 @@ export default ViewDBs = ({navigation}) => {
     },[])
 
     const getDriveBys = () => {
-        var url = constants.ip + ':3210/data/drivebys/byUserId';
+        var url = constants.ip + '/data/drivebys/byUserId';
         if(userId){ 
             Axios.post(url, {
                 id: userId,

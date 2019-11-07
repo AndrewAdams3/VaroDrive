@@ -27,11 +27,11 @@ export default ViewAssignments = ({navigation}) => {
     },[])
 
     const populate = () => {
-        Axios.get(constants.ip + ':3210/data/assignments/byId/' + userId)
+        Axios.get(constants.ip + '/data/assignments/byId/' + userId)
         .then(({ data }) => {
             setAssignments(data)
         })
-        Axios.get(constants.ip + ':3210/data/assignments/target/byId/' + userId)
+        Axios.get(constants.ip + '/data/assignments/target/byId/' + userId)
         .then(({data})=>{
             setTask({...data, length: data.length})
         })
