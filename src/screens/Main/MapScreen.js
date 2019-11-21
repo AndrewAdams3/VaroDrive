@@ -36,7 +36,7 @@ function reducer(state, action) {
         case 'foundRoute':
             return {...state, foundRoute: action.value};
         case 'userPos':
-            return {...state, userPos: action.value.coords, err: action.value.err};
+            return {...state, userPos: action.value};
         case 'reset':
             return initialState;
         default:
@@ -55,13 +55,14 @@ export default function MapScreen({navigation}){
     useEffect(()=>{
         console.log("testing")
         dbDispatch({type: "refresh"})
-        Geolocation.getCurrentPosition(
+        const watcher = Geolocation.watchPosition(
             ({coords}) => {
-                dispatch({type: "userPos", value: {coords: coords, err: ""}})
+                dispatch({type: "userPos", value: coords})
             },
             (error) => dispatch({type: "err", value: error}),
-            { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 },
+            { enableHighAccuracy: true, timeout: 200000, maximumAge: 0, distanceFilter: 5 },
           );
+        return () => Geolocation.clearWatch(watcher)
     },[])
 
 //     useEffect(()=>{
@@ -104,7 +105,7 @@ export default function MapScreen({navigation}){
          }
     }
 
-    const noShift = React.useCallback(() => {
+    const noShift = () => {
         actions.setOnClock(false)
         const resetAction = StackActions.reset({
             index: 0,
@@ -112,20 +113,17 @@ export default function MapScreen({navigation}){
         });
         dbDispatch({type: "refresh"})
         navigation.dispatch(resetAction);
-    })
+    }
 
-    const yesShift = React.useCallback(() => {
-        console.log("setting clock")
+    const yesShift = () => {
         setShowMap(true)
         actions.setOnClock(true)
-        console.log("onclock now")
-    })
+    }
 
     const onLongPress = React.useCallback((e) => {
         const setLocationByCoords = (lat, lon) => {
             Axios.get(constants.ip + '/location/' + lat + "/" + lon)
             .then( ({data}) => {
-                console.log("da", data)
                 dbDispatch({type: "place", value: {
                     county: data.county,
                     State: data.state,
@@ -136,13 +134,31 @@ export default function MapScreen({navigation}){
                 }})
             })
         }
-
         if(!!e.nativeEvent.coordinate){
-            console.log("getting new place", dbState.coords)
             setLocationByCoords(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
         }
         dbDispatch({type: "coords", value: [e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude]})
     },[])
+
+    const regionChange = (e) => {
+        console.log("change", e)
+    }
+
+    useEffect(()=>{
+        if(mapRef.current && !!userPos){
+            var camera = {
+                center: {
+                   latitude: userPos.latitude,
+                   longitude: userPos.longitude,
+                },
+               pitch: 0,
+               altitude: userPos.altitude,
+               heading: userPos.heading,
+               zoom: mapRef.current.zoom
+            }
+            mapRef.current.animateCamera(camera, {duration: 500})
+        }
+    }, [userPos])
 
     return userPos.latitude ? (
         <View style={styles.container}>
@@ -176,14 +192,15 @@ export default function MapScreen({navigation}){
                     provider={PROVIDER_GOOGLE}
                     initialCamera={{
                         center: {
-                        latitude: userPos.latitude,
-                        longitude: userPos.longitude,
+                            latitude: userPos.latitude,
+                            longitude: userPos.longitude,
                         },
-                    pitch: 20,
-                    altitude: userPos.altitude,
-                    heading: userPos.heading,
-                    zoom: 20,
+                        pitch: 20,
+                        altitude: userPos.altitude,
+                        heading: userPos.heading,
+                        zoom: 18,
                     }}
+                    onRegionChangeComplete={regionChange}
                     pitchEnabled={false}
                     showsBuildings={true}
                     toolbarEnabled={false}
