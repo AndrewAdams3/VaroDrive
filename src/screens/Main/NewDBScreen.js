@@ -206,10 +206,9 @@ export default NewDBScreen = ({navigation}) => {
                 if(data.response == 0){
                     if(data.already){
                         showAlreadyAlert();
-                    } else {
-                        navigation.navigate('Map');
-                        dispatch({type: "sending", value: false})
                     }
+                    navigation.navigate('Map');
+                    dispatch({type: "sending", value: false})
                 } else{
                     AlertPopup("Error Submitting", "Please ensure all fields are filled out and Location Services are turned on");
                 }}).catch((err) => { })

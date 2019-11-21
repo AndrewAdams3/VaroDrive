@@ -65,7 +65,8 @@ export default LandingScreen = ({navigation}) => {
               email: data.email || "",
               city: data.city || "",
               State: data.state || "",
-              onClock: data.onClock
+              onClock: data.onClock,
+              tracker: data.tracker
             })
           }
           if(data.infoComplete){

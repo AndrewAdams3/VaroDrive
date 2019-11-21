@@ -211,7 +211,7 @@ export default function MapScreen({navigation}){
                 }
                 </MapView>
             }
-            <TouchableOpacity onPress={()=>{ actions.setOnClock(false); dbDispatch({type: "refresh"});}} style={{position:"absolute", top: 20, right: Platform.OS === "android" ? 20 : null, left: Platform.OS === "ios" ? 20 : null, height: 50, width: 100, borderRadius: 25, backgroundColor: colors.PRIMARY_BACKGROUND, justifyContent: "center", alignItems: "center" }}>
+            <TouchableOpacity onPress={noShift} style={{position:"absolute", top: 20, right: Platform.OS === "android" ? 20 : null, left: Platform.OS === "ios" ? 20 : null, height: 50, width: 100, borderRadius: 25, backgroundColor: colors.PRIMARY_BACKGROUND, justifyContent: "center", alignItems: "center" }}>
                 <Text style={{color: "white"}}>End Shift</Text>
             </TouchableOpacity>
             { !!dbState.coords.length &&
